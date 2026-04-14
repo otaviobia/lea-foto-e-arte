@@ -7,6 +7,7 @@
     position: relative; 
     padding: 100px 0;
     flex-wrap: wrap;
+    margin-bottom: 20px;
 }
 
 /* Efeito de onda */
