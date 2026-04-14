@@ -1,8 +1,3 @@
-#conteudo {
-	display: block;
-	height: 100vh;
-}
-
 .footer {
 	display: flex;
 	flex-direction: column;
@@ -29,9 +24,6 @@
 }
 
 #marca img {
-	position: absolute;
-	top: -50px;
-	left: 10px;
 	max-width: 50px;
 
 	-webkit-transform: scale(-1, 1);
@@ -42,10 +34,6 @@
 
 #footer-content {
 	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: flex-start;
-	column-gap: 60px;
 }
 
 #footer-content > p {
@@ -55,11 +43,6 @@
 
 #informacoes {
 	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: flex-start;
-column-gap: 60px;
-
 	position: relative;
 }
 
@@ -81,4 +64,48 @@ column-gap: 60px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+}
+
+@media(orientation: landscape) {
+	#footer-content {
+		flex-direction: row;
+		justify-content: center;
+		align-items: flex-start;
+		column-gap: 60px;
+	}
+
+	#informacoes {
+		flex-direction: row;
+		justify-content: center;
+		align-items: flex-start;
+		column-gap: 60px;
+	}
+
+	#marca img {
+		position: absolute;
+		top: -50px;
+		left: 10px;
+	}
+}
+
+@media(orientation: portrait) {
+	#footer-content {
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+		row-gap: 60px;
+	}
+
+	#informacoes {
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: center;
+		row-gap: 30px;
+	}
+
+	#marca img {
+		position: absolute;
+		top: -50px;
+		left: -60px;
+	}
 }
