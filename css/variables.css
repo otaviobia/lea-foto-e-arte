@@ -1,7 +1,12 @@
 :root {
   /* Cores */
-  --color-bg: #f8fafc; /* Exemplo: trocar pras da paleta */
+  --color-purple: #C1BAD9;
+  --color-pink: #F2B3B3;
+  --color-green: #ABD194;
+  --color-yellow: #F2E088;
+  --color-blue: #A2D9D9;
 
   /* Tipografia */
-  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Exemplo: trocar pra sans e cursiva da pasta fonts (adicionar elas aqui tmb) */
+  --font-sans: "Viminalis", sans-serif;
+  --font-cursive: "Winterfun", cursive;
 }
