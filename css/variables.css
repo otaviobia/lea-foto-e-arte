@@ -1,0 +1,7 @@
+:root {
+  /* Cores */
+  --color-bg: #f8fafc; /* Exemplo: trocar pras da paleta */
+
+  /* Tipografia */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Exemplo: trocar pra sans e cursiva da pasta fonts (adicionar elas aqui tmb) */
+}
