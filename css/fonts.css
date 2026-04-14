@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Viminalis';
-  src: url('../assets/fonts/viminalis.otf') format('opentype');
+  src: url('../assets/fonts/Viminalis.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: 'Viminalis';
-  src: url('../assets/fonts/viminalis-bold.otf') format('opentype');
+  src: url('../assets/fonts/Viminalis-bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
   font-display: swap; 
@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: 'Winterfun';
-  src: url('../assets/fonts/winterfun.ttf') format('truetype');
+  src: url('../assets/fonts/Winterfun.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap; 
