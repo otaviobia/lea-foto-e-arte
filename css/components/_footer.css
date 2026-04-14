@@ -57,7 +57,16 @@
 	font-family: var(--font-sans);
 }
 
-.info-loja * { display: block; }
+.info-loja a { 
+	font-family: var(--font-sans);
+	color: white;
+	text-decoration: none;
+	display: block; 
+}
+
+.info-loja a:hover { 
+	text-decoration: underline;
+}
 
 #contato {
 	display: flex;
@@ -68,6 +77,10 @@
 #contato div a {
 	margin-left: 3px;
 	margin-right: 3px;
+}
+
+.copyright {
+	font-family: var(--font-sans);
 }
 
 @media(orientation: landscape) {
