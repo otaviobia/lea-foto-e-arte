@@ -1,4 +1,3 @@
-/* --- THE DARK OVERLAY --- */
 .sidebar-overlay {
   position: fixed;
   top: 0;
@@ -8,7 +7,6 @@
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 30;
   
-  /* Hidden by default */
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s ease;
@@ -19,31 +17,28 @@
   pointer-events: all;
 }
 
-/* --- THE SIDEBAR --- */
 .sidebar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 85vw; /* Leaves a little gap on the right */
+  width: 85vw;
   max-width: 350px;
   height: 100vh;
-  background-color: #cdd1e4; /* Use your specific purple variable here */
+  background-color: var(--color-purple);
   z-index: 40;
   display: flex;
   flex-direction: column;
   padding: 20px;
   box-sizing: border-box;
   
-  /* Slide it off-screen to the left */
   transform: translateX(-100%);
   transition: transform 0.3s ease-in-out;
 }
 
 .sidebar.active {
-  transform: translateX(0); /* Brings it onto the screen */
+  transform: translateX(0);
 }
 
-/* Sidebar Top (Close Button) */
 .sidebar-top {
   display: flex;
   justify-content: flex-end;
@@ -57,14 +52,13 @@
   padding: 5px;
 }
 
-/* Search Bar */
 .sidebar-search-container {
   position: relative;
   margin-bottom: 30px;
 }
 
 .sidebar-search {
-  width: 100%;
+  width: 80%;
   padding: 12px 12px 12px 40px;
   border: none;
   border-radius: 20px;
@@ -82,7 +76,6 @@
   color: #333;
 }
 
-/* Navigation Links */
 .sidebar-nav {
   display: flex;
   flex-direction: column;
@@ -97,20 +90,19 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
-/* Footer (Logo) */
 .sidebar-footer {
-  margin-top: auto; /* Pushes the logo to the very bottom */
+  margin-top: auto;
   display: flex;
   justify-content: center;
   padding-bottom: 20px;
 }
 
 .sidebar-logo {
-  width: 150px; /* Adjust based on your actual logo image size */
+  width: 150px;
   height: auto;
+  padding-bottom: 50px;
 }
 
-/* Hide Sidebar entirely on Desktop */
 @media (min-width: 768px) {
   .sidebar, .sidebar-overlay {
     display: none !important;

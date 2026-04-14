@@ -5,22 +5,64 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Léa Foto e Arte</title>
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="../css/main.css">
+  <script src="../scripts/app.js" defer></script>
 </head>
 <body>
+  <header class="header">
+    <div class="header-hamburger">
+      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 40 40" fill="none">
+        <path d="M10 12.5C10 11.6716 10.6716 11 11.5 11H28.5C29.3284 11 30 11.6716 30 12.5C30 13.3284 29.3295 14 28.5011 14C26.4455 14 22.6996 14 20 14C17.3004 14 13.5545 14 11.4989 14C10.6704 14 10 13.3284 10 12.5Z" fill="#F2B3B3"/>
+        <path d="M10 26.5C10 25.6716 10.6716 25 11.5 25H28.5C29.3284 25 30 25.6716 30 26.5C30 27.3284 29.3295 28 28.5011 28C26.4455 28 22.6996 28 20 28C17.3004 28 13.5545 28 11.4989 28C10.6704 28 10 27.3284 10 26.5Z" fill="#F2B3B3"/>
+        <path d="M10 19.5C10 18.6716 10.6716 18 11.5 18H28.5C29.3284 18 30 18.6716 30 19.5C30 20.3284 29.3295 21 28.5011 21C26.4455 21 22.6996 21 20 21C17.3004 21 13.5545 21 11.4989 21C10.6704 21 10 20.3284 10 19.5Z" fill="#F2B3B3"/>
+      </svg>
+    </div>
+    <a href="/" class="header-logo"><img src="../assets/images/logo.png" alt="Léa Foto e Arte"></a>
+    <img class="header-mobile-decoration" src="../assets/images/header-decoration.png" alt="Decoração">
+    <nav class="header-desktop-nav">
+      <a href="/">Início</a>
+      <a href="./comprar-por-tema.html">Comprar por Tema</a>
+      <a href="./sobre.html">Sobre</a>
+    </nav>
+  </header>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  <aside class="sidebar" id="mobileSidebar">
+    <div class="sidebar-top">
+      <button class="sidebar-close" id="closeSidebarBtn">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="sidebar-search-container">
+      <input type="text" class="sidebar-search" placeholder="Buscar...">
+      <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/">Início</a>
+      <a href="./comprar-por-tema.html">Comprar por Tema</a>
+      <a href="./sobre.html">Sobre</a>
+    </nav>
+    <div class="sidebar-footer">
+      <img src="../assets/images/submarca.png" alt="Léa Foto e Arte Logo" class="sidebar-logo">
+    </div>
+  </aside>
 	<div class="footer">
 		<div id="footer-content">
 			<div id="marca">
-				<img id="footer-turtle" src="./assets/images/tartaruga.png">
-				<img id="footer-nome" src="./assets/images/nome.png">
+				<img id="footer-turtle" src="../assets/images/tartaruga.png" alt="Tartaruga">
+				<img id="footer-nome" src="../assets/images/nome.png" alt="Léa Foto e Arte">
 			</div>
 
 			<div id="informacoes">
 				<div class="info-loja">
 					<h1>INSTITUCIONAL</h1>
-					<p>Home</p>
-					<p>Sobre a Léa Foto e Arte</p>
-					<p>Política da Loja</p>
+					<a href="/">Home</a>
+					<a href="./sobre.html">Sobre a Léa Foto e Arte</a>
+					<a href="./politicas-da-loja.html">Política da Loja</a>
 				</div>
 				<div class="info-loja">
 					<h1>CONTATO</h1>
@@ -32,14 +74,14 @@
 			<div id="contato">
 				<h1>SIGA NOSSAS REDES SOCIAIS</h1>
 				<div>
-					<a href="https://www.instagram.com/leafotoearte"><img src="./assets/svg/instagram.svg"></a>
-					<a href="https://www.facebook.com/leafotoearte"><img src="./assets/svg/facebook.svg"></a>
-					<a href="https://wa.me/5516997158260"><img src="./assets/svg/whatsapp.svg"></a>
-					<a href="leafotoerte@gmail.com"><img src="./assets/svg/Email.svg"></a>
+					<a href="https://www.instagram.com/leafotoearte"><img src="../assets/svg/instagram.svg" alt="Instagram"></a>
+					<a href="https://www.facebook.com/leafotoearte"><img src="../assets/svg/facebook.svg" alt="Facebook"></a>
+					<a href="https://wa.me/5516997158260"><img src="../assets/svg/whatsapp.svg" alt="WhatsApp"></a>
+					<a href="leafotoerte@gmail.com"><img src="../assets/svg/Email.svg" alt="Email"></a>
 				</div>
 			</div>
 		</div>
-		<p>© 2026, Léa Foto e Arte - CNPJ 29.402.767/0001-29</p>
+		<p class="copyright">© 2026, Léa Foto e Arte - CNPJ 29.402.767/0001-29</p>
 	</div>
 </body>
 </html>
