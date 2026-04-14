@@ -18,18 +18,17 @@
 	position: relative;
 }
 
-#marca p {
-	font-size: 32px;
-	font-family: var(--font-cursive);
-}
-
-#marca img {
+#footer-turtle {
 	max-width: 50px;
 
 	-webkit-transform: scale(-1, 1);
 	-moz-transform: scale(-1, 1);
 	-o-transform: scale(-1, 1);
 	transform: scale(-1, 1);
+}
+
+#footer-nome {
+	height: 30px;
 }
 
 #footer-content {
@@ -86,7 +85,7 @@
 		column-gap: 60px;
 	}
 
-	#marca img {
+	#footer-turtle {
 		position: absolute;
 		top: -50px;
 		left: 10px;
@@ -98,7 +97,7 @@
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: center;
-		row-gap: 60px;
+		row-gap: 30px;
 	}
 
 	#informacoes {
@@ -108,7 +107,7 @@
 		row-gap: 30px;
 	}
 
-	#marca img {
+	#footer-turtle {
 		position: absolute;
 		top: -50px;
 		left: -60px;
