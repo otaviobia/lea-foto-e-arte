@@ -66,6 +66,11 @@
 	align-items: center;
 }
 
+#contato div a {
+	margin-left: 3px;
+	margin-right: 3px;
+}
+
 @media(orientation: landscape) {
 	#footer-content {
 		flex-direction: row;
