@@ -1,0 +1,133 @@
+.depoimentos {
+    background-color: var(--color-pink);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative; 
+    padding: 100px 0;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+/* Efeito de onda */
+.wave-divider {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.wave-divider svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: clamp(20px, 5vw, 50px);
+}
+
+.wave-top {
+    top: 0;
+}
+
+.wave-bottom {
+    bottom: 0;
+}
+/* Fim do efeito de onda */
+
+.depoimentos-container {
+    display: flex;
+    align-items: start;
+    gap: 30px;
+}
+
+.depoimentos-titulo {
+    color: white;
+    text-align: center;
+    font-family: var(--font-cursive);
+    font-size: 2em;
+    padding-bottom: 20px;
+}
+
+.depoimento-pico {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.depoimento {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 300px;
+    gap: 10px;
+}
+
+.depoimento:nth-child(n+2) {
+    display: none;
+}
+
+.depoimento-estrelas {
+    width: 150px;
+    height: auto;
+}
+
+.depoimento-conteudo {
+    color: white;
+    text-align: justify;
+    font-family: var(--font-sans);
+    font-size: 0.75em;
+}
+
+.depoimento-autor {
+    color: white;
+    text-align: center;
+    font-family: var(--font-sans);
+    font-size: 1em;
+}
+
+.decoracao-borboleta {
+    position: absolute;
+    
+    bottom: 5px; 
+    right: 10%;
+    
+    transform: translateY(50%);
+    
+    width: 60px;
+    height: auto;
+    z-index: 10;
+}
+
+@media (min-width: 768px) {
+    .depoimento:nth-child(n+2) {
+        display: flex;
+    }
+
+    .depoimento {
+        min-height: 320px;
+    }
+
+    .depoimentos-titulo {
+        font-size: 4em;
+    }
+
+    .depoimento-conteudo {
+        font-size: 1.5em;
+    }
+
+    .depoimento-autor {
+        font-size: 2em;
+    }
+
+    .decoracao-borboleta {
+        bottom: 15px;
+        right: 23%;
+    }
+
+    .depoimento-estrelas {
+        width: 200px;
+    }
+}
