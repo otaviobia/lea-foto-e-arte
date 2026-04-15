@@ -1,0 +1,27 @@
+.politicas-da-loja {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    box-sizing: border-box;
+    padding: 30px;
+}
+
+.politicas-da-loja h1, h2, p {
+    font-family: var(--font-sans);
+}
+
+.politicas-da-loja h1 {
+    font-size: 2em;
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+
+.politicas-da-loja h2 {
+    font-size: 1em;
+    padding-bottom: 5px;
+}
+
+.politicas-da-loja p {
+    font-size: 1.25em;
+    padding-bottom: 20px;
+}

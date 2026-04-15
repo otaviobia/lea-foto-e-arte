@@ -85,6 +85,11 @@
 	margin-right: 3px;
 }
 
+#contato div a img {
+	margin-top: 5px;
+	width: 32px;
+}
+
 .copyright {
 	font-family: var(--font-sans);
 }

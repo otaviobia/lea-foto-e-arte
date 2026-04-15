@@ -1,7 +1,7 @@
 .mostrador-de-produtos {
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     gap: 20px;
     flex-wrap: wrap;
