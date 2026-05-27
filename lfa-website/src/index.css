@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme {
+  /* Cores */
+  --color-lfapurple: #C1BAD9;
+  --color-lfapink: #F2B3B3;
+  --color-lfagreen: #ABD194;
+  --color-lfayellow: #F2E088;
+  --color-lfablue: #A2D9D9;
+
+  /* Tipografia */
+  --font-sans: "Viminalis", sans-serif;
+  --font-cursive: "Winterfun", cursive;
+}
+
+@font-face {
+  font-family: 'Viminalis';
+  src: url('../assets/fonts/Viminalis.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Viminalis';
+  src: url('../assets/fonts/Viminalis-bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap; 
+}
+
+@font-face {
+  font-family: 'Winterfun';
+  src: url('../assets/fonts/Winterfun.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; 
+}
