@@ -16,9 +16,9 @@ function ProductCarousel({produtos}) {
         },
       }}
     >
-      {produtos.map((p, index) =>
-        <SwiperSlide>
-          <ProductCard key={index} imageSrc={p.imageSrc} title={p.title} price={p.price} productLink={p.productLink}/>
+      {produtos.map((p, id) =>
+        <SwiperSlide key={id}>
+          <ProductCard imageSrc={p.imageSrc} title={p.title} price={p.price} productLink={p.productLink}/>
         </SwiperSlide>
       )}
     </Swiper>
