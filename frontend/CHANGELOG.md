@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Tweaked "Ver todos os temas" button
 - Connected DB with Backend and Frontend
 - Added fallback for Loading and NotFound pages
 - Added Produto.jsx and Produtos.jsx
