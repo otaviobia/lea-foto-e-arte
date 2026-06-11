@@ -73,7 +73,7 @@ function Politicas() {
       <img className="pt-4" src="/images/assinatura.png" alt="Léa Biagioni" />
     </Container>
   </main>
-  );
+  )
 }
 
 export default Politicas

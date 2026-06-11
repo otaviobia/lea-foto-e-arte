@@ -41,7 +41,7 @@ function Sobre() {
         <ProductCarousel produtos={produtos}/>
       </Container>
     </main>
-  );
+  )
 }
 
 export default Sobre

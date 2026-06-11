@@ -15,10 +15,10 @@ function Header() {
     </div>
 
     <a href="/" className="w-28.5 absolute left-1/2 -translate-x-1/2 block md:static md:translate-x-0">
-      <img src="images/logo.png" alt="Léa Foto e Arte" className="w-full block" />
+      <img src="/images/logo.png" alt="Léa Foto e Arte" className="w-full block" />
     </a>
 
-    <img className="h-22.5 md:hidden" src="images/header-decoration.png" alt="Decoração" />
+    <img className="h-22.5 md:hidden" src="/images/header-decoration.png" alt="Decoração" />
 
     <nav className="hidden md:flex gap-5">
       <a href="/" className="text-black font-viminalis text-[1.2em] no-underline hover:text-lfapink transition-colors">Início</a>
@@ -66,11 +66,11 @@ function Header() {
     </nav>
 
     <div className="mt-auto p-6 flex justify-center">
-      <img src="images/submarca.png" alt="Léa Foto e Arte Logo" className="w-32 h-auto" />
+      <img src="/images/submarca.png" alt="Léa Foto e Arte Logo" className="w-32 h-auto" />
     </div>
     </aside>
   </>
-  );
+  )
 }
 
 export default Header

@@ -1,0 +1,34 @@
+.loading-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loading-imagem {
+  width: 4rem;
+}
+
+.loading-texto {
+  font-family: 'Viminalis', sans-serif;
+  margin-top: 1rem;
+
+  font-size: 1.5rem;
+  font-weight: normal;
+}
+
+@keyframes tailwind-bounce {
+  0%, 100% {
+    transform: translateY(-25%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: none;
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+.animate-bounce-puro {
+  animation: tailwind-bounce 1s infinite;
+}

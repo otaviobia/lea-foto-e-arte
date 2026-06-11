@@ -9,12 +9,12 @@ function Footer() {
         <div className="relative">
           <img 
             className="max-w-12 -scale-x-100 portrait:absolute portrait:-top-12 portrait:-left-16 landscape:absolute landscape:-top-12 landscape:left-2.5" 
-            src="images/tartaruga.png" 
+            src="/images/tartaruga.png" 
             alt="Tartaruga" 
           />
           <img 
             className="h-8" 
-            src="images/nome.png" 
+            src="/images/nome.png" 
             alt="Léa Foto e Arte" 
           />
         </div>
@@ -57,7 +57,7 @@ function Footer() {
       </p>
       
     </footer>
-  );
+  )
 }
 
 export default Footer

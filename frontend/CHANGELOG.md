@@ -9,6 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Connected DB with Backend and Frontend
+- Added fallback for Loading and NotFound pages
+- Added Produto.jsx and Produtos.jsx
+- Added route for category
+- Added Express boilerplate
+- Added docker compose with Postgres
+- Added mock data for categories
+- Added Comprar por Tema page
 - Added a Container component for limited width pages
 - Added Home, NotFound, Politicas and Sobre pages
 - Added RootLayout with header and footer
