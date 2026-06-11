@@ -24,8 +24,8 @@ function Footer() {
           <div className="flex flex-col items-center justify-start font-viminalis">
             <h1 className="mb-1 text-lg font-bold">INSTITUCIONAL</h1>
             <a href="/" className="text-white text-lg no-underline hover:underline block">Home</a>
-            <a href="/pages/sobre" className="text-white text-lg no-underline hover:underline block">Sobre a Léa Foto e Arte</a>
-            <a href="/pages/politicas-da-loja" className="text-white text-lg no-underline hover:underline block">Política da Loja</a>
+            <a href="/sobre" className="text-white text-lg no-underline hover:underline block">Sobre a Léa Foto e Arte</a>
+            <a href="/politicas-da-loja" className="text-white text-lg no-underline hover:underline block">Política da Loja</a>
           </div>
 
           <div className="flex flex-col items-center justify-start font-viminalis">

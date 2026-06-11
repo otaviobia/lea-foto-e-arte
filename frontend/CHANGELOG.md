@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added a Container component for limited width pages
+- Added Home, NotFound, Politicas and Sobre pages
+- Added RootLayout with header and footer
+- Added React Router
 - Added Header and Footer
 - Added CategoryCarousel
 - Added responsive Hero
