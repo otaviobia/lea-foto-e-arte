@@ -28,9 +28,21 @@ Também desenvolvemos o design de um Backoffice no FIGMA com:
 
 Pode ser acessado [clicando aqui](https://www.figma.com/design/4Xzd9YBH3SzxHnXRrlUK7k/Site-L%C3%A9a-Foto-e-Arte?node-id=185-2231&m=dev).
 
-## Próximos Passos
+## Rodando o Projeto
 
-Converter o projeto em React para facilitar a componentização e desenvolver o backend.
+### Banco de Dados
+- No root do projeto rodar "docker compose up -d"
+- Para desligar rodar "docker compose down"
+
+### Backend
+- Na pasta "/backend" rodar "npm i"
+- Depois rodar "node server.js"
+- Para desligar use "ctrl+C"
+
+### Frontend
+- Na pasta "/frontend" rodar "npm i"
+- Depois rodar "npm run dev"
+- Para desligar use "ctrl+C"
 
 ## Alunos
 
