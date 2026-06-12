@@ -7,13 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-
+- Added route for product (create, get)
+- Moved CHANGELOD.md to root folder
 - Tweaked "Ver todos os temas" button
 - Connected DB with Backend and Frontend
 - Added fallback for Loading and NotFound pages
 - Added Produto.jsx and Produtos.jsx
-- Added route for category
+- Added route for category (create, get, delete)
 - Added Express boilerplate
 - Added docker compose with Postgres
 - Added mock data for categories
