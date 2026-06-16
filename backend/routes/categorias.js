@@ -1,6 +1,5 @@
 import express from 'express';
-import Category from '../models/Category.js';
-import Product from '../models/Product.js';
+import { Category, Product } from '../models/index.js';
 
 const router = express.Router();
 

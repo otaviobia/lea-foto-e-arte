@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Changed seeding of backend
+- Added product page
 - Added route for product (create, get)
 - Moved CHANGELOD.md to root folder
 - Tweaked "Ver todos os temas" button

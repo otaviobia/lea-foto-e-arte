@@ -3,43 +3,43 @@ export const produtos = [
   imageSrc: "/produtos/topper.webp",
   title: "Toppers Fauna Brasileira",
   price: "R$ 50,00",
-  productLink: "https://example.com/topper"
+  productSlug: "toppers-fauna-brasileira"
   },
   {
   imageSrc: "/produtos/topper.webp",
   title: "Toppers Fauna Brasileira",
   price: "R$ 50,00",
-  productLink: "https://example.com/topper"
+  productSlug: "toppers-fauna-brasileira"
   },
   {
   imageSrc: "/produtos/topper.webp",
   title: "Toppers Fauna Brasileira",
   price: "R$ 50,00",
-  productLink: "https://example.com/topper"
+  productSlug: "toppers-fauna-brasileira"
   },
   {
   imageSrc: "/produtos/topper.webp",
   title: "Toppers Fauna Brasileira",
   price: "R$ 50,00",
-  productLink: "https://example.com/topper"
+  productSlug: "toppers-fauna-brasileira"
   },
   {
   imageSrc: "/produtos/topper.webp",
   title: "Toppers Fauna Brasileira",
   price: "R$ 50,00",
-  productLink: "https://example.com/topper"
+  productSlug: "toppers-fauna-brasileira"
   },
   {
   imageSrc: "/produtos/topper.webp",
   title: "Toppers Fauna Brasileira",
   price: "R$ 50,00",
-  productLink: "https://example.com/topper"
+  productSlug: "toppers-fauna-brasileira"
   },
   {
   imageSrc: "/produtos/topper.webp",
   title: "Toppers Fauna Brasileira",
   price: "R$ 50,00",
-  productLink: "https://example.com/topper"
+  productSlug: "toppers-fauna-brasileira"
   },
 ];
 

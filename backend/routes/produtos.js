@@ -1,5 +1,5 @@
 import express from 'express';
-import Product from '../models/Product.js';
+import { Category, Product } from '../models/index.js';
 
 const router = express.Router();
 
@@ -45,6 +45,7 @@ router.get('/categoria/:categorySlug', async (req, res) => {
     const products = await Product.findAll({
       include: {
         model: Category,
+        as: 'category',
         where: { slug: categorySlug },
         attributes: [], // Não precisamos dos dados da categoria aqui
       },

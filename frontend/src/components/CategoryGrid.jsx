@@ -10,7 +10,7 @@ function CategoryGrid({ categories }) {
               className="aspect-square w-full rounded-full pb-1 object-cover"
               src={c.image}
               alt={c.name}
-              loading="lazy" // ← browser carrega conforme vai aparecendo na tela
+              loading="lazy" // browser carrega conforme vai aparecendo na tela
             />
             <p className="text-2xl font-viminalis text-center">{c.name}</p>
           </Link>

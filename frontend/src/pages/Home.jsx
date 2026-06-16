@@ -3,17 +3,28 @@ import Testimonies from "../components/Testimonies.jsx";
 import CategoryCarousel from "../components/CategoryCarousel.jsx";
 import Hero from "../components/Hero.jsx";
 import Container from "../components/Container.jsx";
-import { produtos, depoimentos, images, categorias } from "../assets/mock.js";
+import { depoimentos, images, categorias } from "../assets/mock.js";
 import { Link } from "react-router";
+import {useState, useEffect} from "react";
+
 
 function Home() {
+  const [produtoCat, setprodutoCat] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/api/produtos/categoria/papelaria`)
+      .then(res => res.json())
+      .then(data => setprodutoCat(data.produtos))
+      .catch(console.error);
+  }, []);
+
   return (
     <main className="w-full">
       <Hero images={images}/>
 
       <section className="w-full bg-white py-12">
         <Container>
-          <ProductCarousel produtos={produtos}/>
+          <ProductCarousel produtos={produtoCat}/>
         </Container>
       </section>
 

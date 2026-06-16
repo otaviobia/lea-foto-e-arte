@@ -1,4 +1,5 @@
 // Configuração da conexão com o banco de dados usando Sequelize
+import 'dotenv/config';
 import { Sequelize } from 'sequelize';
 
 const sequelize = new Sequelize(
