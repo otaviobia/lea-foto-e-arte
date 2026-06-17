@@ -3,7 +3,6 @@ import { Outlet, useNavigation } from 'react-router'
 import Header from "../components/Header.jsx";
 import Footer from "../components/Footer.jsx";
 import Loading from "../components/Loading.jsx";
-import FAQ from "../components/FAQ.jsx"
 
 export default function RootLayout() {
   const navigation = useNavigation();
@@ -17,7 +16,6 @@ export default function RootLayout() {
       <>
       <Header />
       <Outlet/>
-	  <FAQ />
       <Footer />
       </>
     )}

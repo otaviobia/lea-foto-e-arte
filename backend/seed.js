@@ -1,6 +1,5 @@
+import { Category, Product, Hero } from './models/index.js';
 import sequelize from './config/database.js';
-import Category from './models/Category.js';
-import Product from './models/Product.js';
 
 async function seedDatabase() {
   try {
@@ -11,9 +10,9 @@ async function seedDatabase() {
     console.log('Tabelas sincronizadas.');
 
     const categorias = await Category.bulkCreate([
-      { slug: 'fauna-brasileira', name: 'Fauna Brasileira', image: 'https://d2cp7y84leain9.cloudfront.net/17/pastas/thumb/folder-1778957287801.webp' },
-      { slug: 'dinossauros', name: 'Dinossauros', image: 'https://d2cp7y84leain9.cloudfront.net/17/pastas/thumb/folder-1778957182579.webp' },
-      { slug: 'natal', name: 'Natal', image: 'https://d2cp7y84leain9.cloudfront.net/17/pastas/thumb/folder-1778963495180.webp' },
+      { slug: 'fauna-brasileira', name: 'Fauna Brasileira', image: 'https://d2cp7y84leain9.cloudfront.net/17/pastas/thumb/folder-1778957287801.webp', isFeatured: true, featuredOrder: 0 },
+      { slug: 'dinossauros', name: 'Dinossauros', image: 'https://d2cp7y84leain9.cloudfront.net/17/pastas/thumb/folder-1778957182579.webp', isFeatured: true, featuredOrder: 1 },
+      { slug: 'natal', name: 'Natal', image: 'https://d2cp7y84leain9.cloudfront.net/17/pastas/thumb/folder-1778963495180.webp', isFeatured: false, featuredOrder: 2 },
     ]);
     console.log('Categorias criadas!');
 
@@ -92,6 +91,26 @@ async function seedDatabase() {
       },
     ]);
     console.log('Produtos criados!');
+
+    // Criando os Banners (Heros)
+    await Hero.bulkCreate([
+      {
+        image: 'https://i.imgur.com/f8RJskf.png',
+        isActive: true,
+        order: 0
+      },
+      {
+        image: 'https://i.imgur.com/BTfMyuL.png',
+        isActive: true,
+        order: 1
+      },
+      {
+        image: 'https://down-br.img.susercontent.com/file/br-11134207-7r98o-m9rbvvbqkzlld0@resize_w450_nl.webp',
+        isActive: false,
+        order: 2
+      }
+    ]);
+    console.log('Heros (Banners) criados!');
 
     console.log('✅ Mock data inserido com sucesso!');
     process.exit(0);

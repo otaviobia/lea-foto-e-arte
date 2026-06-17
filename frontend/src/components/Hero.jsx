@@ -4,7 +4,7 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-function Hero ({ images }) {
+function Hero ({ heros }) {
   return (
     <Swiper
       loop={true}
@@ -18,9 +18,9 @@ function Hero ({ images }) {
       }}
       className="w-full aspect-video lg:aspect-auto"
     >
-      {images.map((i, id) =>
+      {heros.map((hero, id) =>
         <SwiperSlide key={id} className="h-full w-full">
-          <img className="block w-full h-full object-cover" src={i.src} alt={"Imagem " + id} />
+          <img className="block w-full h-full object-cover" src={hero.image} alt={"Imagem " + id} />
         </SwiperSlide>
       )}
     </Swiper>

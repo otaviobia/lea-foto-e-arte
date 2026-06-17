@@ -1,4 +1,4 @@
-function RelatoriosLogin() {
+function AdminRelatorios() {
   return (
   <main className="font-viminalis py-4">
     <p>Relatorios Admin</p>
@@ -6,4 +6,4 @@ function RelatoriosLogin() {
   )
 }
 
-export default RelatoriosLogin
+export default AdminRelatorios

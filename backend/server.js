@@ -3,6 +3,7 @@ import express, { json } from 'express';
 import sequelize from './config/database.js';
 import categorias from './routes/categorias.js';
 import produtos from './routes/produtos.js';
+import heros from './routes/heros.js';
 import cors from 'cors';
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(cors({
 
 app.use('/api/categorias', categorias);
 app.use('/api/produtos', produtos);
+app.use('/api/heros', heros);
 
 const PORT = process.env.PORT || 3000;
 

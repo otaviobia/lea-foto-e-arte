@@ -84,4 +84,59 @@ router.post('/', async (req, res) => {
   }
 });
 
+// PUT: Atualizar um produto existente
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { title, description, price, shopeeLink, images, categoryId } = req.body;
+
+  try {
+    const product = await Product.findByPk(id);
+
+    if (!product) {
+      return res.status(404).json({ erro: 'Produto não encontrado' });
+    }
+
+    // Se o título mudou, atualizamos o slug também
+    let slug = product.slug;
+    if (title && title !== product.title) {
+      slug = title.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
+    await product.update({
+      slug,
+      title,
+      description,
+      price,
+      shopeeLink,
+      images,
+      categoryId,
+    });
+
+    res.json({ produto: product });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ erro: 'Erro ao atualizar produto' });
+  }
+});
+
+// DELETE: Remover um produto
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const product = await Product.findByPk(id);
+
+    if (!product) {
+      return res.status(404).json({ erro: 'Produto não encontrado' });
+    }
+
+    await product.destroy();
+
+    res.json({ mensagem: 'Produto removido com sucesso' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ erro: 'Erro ao remover produto' });
+  }
+});
+
 export default router;

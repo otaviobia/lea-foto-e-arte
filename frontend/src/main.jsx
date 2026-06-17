@@ -1,6 +1,6 @@
 import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter } from 'react-router'
+import { createBrowserRouter, Navigate } from 'react-router'
 import { RouterProvider } from 'react-router/dom'
 
 import './index.css'
@@ -20,6 +20,7 @@ import AdminLayout from './pages/Admin/Layout.jsx'
 import AdminVendas from './pages/Admin/Vendas.jsx'
 import AdminProdutos from './pages/Admin/Produtos.jsx'
 import AdminRelatorios from './pages/Admin/Relatorios.jsx'
+import AdminRootLayout from './layouts/AdminRootLayout'
 
 const router = createBrowserRouter([
   { // Rotas de usuário
@@ -35,9 +36,7 @@ const router = createBrowserRouter([
         errorElement: <NotFound /> 
       },
       { path: 'produtos/:category', Component: Produtos },
-      {
-        path: 'comprar-por-tema', Component: ComprarPorTema,
-      },
+      { path: 'comprar-por-tema', Component: ComprarPorTema },
       { path: 'politicas-da-loja', Component: Politicas },
       { path: '*', Component: NotFound },
     ]
@@ -47,10 +46,16 @@ const router = createBrowserRouter([
     path: 'admin',
     children : [
       { path: 'login', Component: AdminLogin },
-      { path: 'layout', Component: AdminLayout },
-      { path: 'produtos', Component: AdminProdutos },
-      { path: 'vendas', Component: AdminVendas },
-      { path: 'relatorios', Component: AdminRelatorios },
+      { 
+        element: <AdminRootLayout />, 
+        children: [
+          { index: true, element: <Navigate to="/admin/layout" replace /> },
+          { path: 'layout', Component: AdminLayout },
+          { path: 'produtos', Component: AdminProdutos },
+          { path: 'vendas', Component: AdminVendas },
+          { path: 'relatorios', Component: AdminRelatorios },
+        ]
+      }
     ]
   },
 ])

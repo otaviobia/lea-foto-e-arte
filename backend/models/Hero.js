@@ -1,38 +1,29 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
-const Category = sequelize.define('Category', {
+const Hero = sequelize.define('Hero', {
   id: {
     type:          DataTypes.INTEGER,
     primaryKey:    true,
     autoIncrement: true,
   },
-  slug: {
-    type:      DataTypes.STRING,
-    allowNull: false,
-    unique:    true,
-  },
-  name: {
-    type:      DataTypes.STRING,
-    allowNull: false,
-  },
   image: {
     type:      DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
-  isFeatured: {
+  isActive: {
     type:      DataTypes.BOOLEAN,
     allowNull: false,
-    defaultValue: false,
+    defaultValue: true,
   },
-  featuredOrder: {
+  order: {
     type:      DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
     defaultValue: 0,
   },
 }, {
-  tableName:  'categories',
+  tableName:  'heros',
   timestamps: false,
 });
 
-export default Category;
+export default Hero;
