@@ -1,6 +1,17 @@
-import { Swiper, SwiperSlide } from "swiper/react"
+import { Swiper, SwiperSlide } from "swiper/react";
+import {useState, useEffect} from "react";
+import { Link } from 'react-router';
 
-function CategoryCarousel ({ categories }) {
+function CategoryCarousel() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/categorias")
+	  .then(res => res.json())
+	  .then(data => setCategories(data.categorias))
+	  .catch(console.error);
+  }, []);
+
   return (
     <Swiper 
       spaceBetween={30}
@@ -17,10 +28,10 @@ function CategoryCarousel ({ categories }) {
     >
       {categories.map((c, id) =>
         <SwiperSlide key={id}>
-          <a href="trocaraqui.html">
+          <Link to={`/produtos/${c.slug}`}>
             <img className="aspect-square rounded-full pb-1" src={c.image} alt={c.name} />
             <p className="text-2xl font-viminalis text-center">{c.name}</p>
-          </a>
+          </Link>
         </SwiperSlide>
       )}
     </Swiper>
