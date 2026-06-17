@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Made category carousel fetch the categories from API
+- Added product grid page accessible from categories
+- New category route to fetch only one by slug
+- Commented out search function
 - Tweak product page sizings
 - Display price with comma instead of dot
 - Make seeding contain real products

@@ -36,6 +36,26 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Rota para buscar apenas uma categoria por slug (pra saber o nome bonito)
+router.get('/:slug', async (req, res) => {
+  const { slug } = req.params;
+
+  try {
+    const category = await Category.findOne({
+      where: { slug: slug }
+    });
+
+    if (!category) {
+      return res.status(404).json({ erro: 'Categoria não encontrada' });
+    }
+
+    res.json({ categoria: category });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ erro: 'Erro ao buscar categoria' });
+  }
+});
+
 // Rota para remover uma categoria por id e colocar todos os produtos associados a ela como "sem categoria"
 // TODO: Permitir apenas usuários autenticados removerem categorias
 router.delete('/:id', async (req, res) => {

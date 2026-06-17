@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         loader: productLoader,
         errorElement: <NotFound /> 
       },
-      { path: 'produtos', Component: Produtos },
+      { path: 'produtos/:category', Component: Produtos },
       {
         path: 'comprar-por-tema', Component: ComprarPorTema,
       },

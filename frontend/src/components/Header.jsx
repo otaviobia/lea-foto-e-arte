@@ -47,6 +47,7 @@ function Header() {
       </button>
     </div>
 
+    {/* BUSCA NÃO IMPLEMENTADA AINDA
     <div className="relative px-4 pb-4">
       <input 
       type="text" 
@@ -57,7 +58,7 @@ function Header() {
       <circle cx="11" cy="11" r="8"></circle>
       <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
-    </div>
+    </div>*/}
 
     <nav className="flex flex-col px-6 py-4 gap-4 grow">
       <a href="/" className="text-black font-viminalis text-lg pb-2 border-b border-gray-200 hover:text-lfapink">Início</a>
