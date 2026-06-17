@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Tweak product page sizings
+- Display price with comma instead of dot
+- Make seeding contain real products
 - Changed seeding of backend
 - Added product page
 - Added route for product (create, get)

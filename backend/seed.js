@@ -1,65 +1,95 @@
-// seed.js
 import sequelize from './config/database.js';
 import Category from './models/Category.js';
 import Product from './models/Product.js';
 
 async function seedDatabase() {
   try {
-    // Autentica no banco
     await sequelize.authenticate();
     console.log('Conexão com o banco estabelecida com sucesso.');
 
-    // Sincroniza os modelos (CUIDADO: force: true apaga todas as tabelas e recria)
-    // Se não quiser apagar os dados existentes, remova o { force: true }
-    await sequelize.sync({ force: true });
+    await sequelize.sync({ force: true }); // apaga todos os dados e recria
     console.log('Tabelas sincronizadas.');
 
-    // 1. Criar Categorias
     const categorias = await Category.bulkCreate([
-      { slug: 'papelaria', name: 'Papelaria', image: 'papelaria-capa.jpg' },
-      { slug: 'canecas', name: 'Canecas', image: 'canecas-capa.jpg' },
-      { slug: 'decoracao', name: 'Decoração', image: 'decoracao-capa.jpg' },
+      { slug: 'fauna-brasileira', name: 'Fauna Brasileira', image: 'https://d2cp7y84leain9.cloudfront.net/17/pastas/thumb/folder-1778957287801.webp' },
+      { slug: 'dinossauros', name: 'Dinossauros', image: 'https://d2cp7y84leain9.cloudfront.net/17/pastas/thumb/folder-1778957182579.webp' },
+      { slug: 'natal', name: 'Natal', image: 'https://d2cp7y84leain9.cloudfront.net/17/pastas/thumb/folder-1778963495180.webp' },
     ]);
     console.log('Categorias criadas!');
 
-    // 2. Criar Produtos associados às categorias criadas
     await Product.bulkCreate([
       {
-        slug: 'caderno-fofo-gatinho',
-        title: 'Caderno Fofo de Gatinho',
-        description: 'Um caderno universitário perfeito para suas anotações com estampa de gatinho.',
-        price: 35.90,
-        shopeeLink: 'https://shopee.com.br/exemplo1',
-        images: ['caderno-gat-1.jpg', 'caderno-gat-2.jpg'],
-        categoryId: categorias[0].id // ID da Papelaria
+        slug: 'topo-de-bolo-fauna-brasileira',
+        title: 'Topo de Bolo Fauna Brasileira',
+        description: 'Topo de Bolo personalizado impresso em papel glossy 230g, colado em canudo de papel colorido. Acompanha 10 toppers para colocar no bolo, docinhos ou cupcakes, colados em palito plástico branco. Entre em contato e monte seu KIT FESTA com todos os itens combinando com essa arte. Todos os produtos da loja Léa Foto e Arte podem ser feitos com esses desenhos (convite, tubete, bandeirola, forminhas, caixinhas). Ao enviar o pedido, envie imediatamente o nome e a idade que serão colocados no topo de bolo.',
+        price: 47.30,
+        shopeeLink: 'https://shopee.com.br/Topo-de-Bolo-Fauna-Brasileira-i.315535138.20698026377',
+        images: ['https://down-br.img.susercontent.com/file/br-11134207-7r98o-m5vyr3hwjrkg00@resize_w900_nl.webp', 'https://down-br.img.susercontent.com/file/br-11134207-7r98o-m5vyr3hwgyfk6b@resize_w900_nl.webp'],
+        categoryId: categorias[0].id // fauna brasileira
       },
       {
-        slug: 'caneca-magica-dev',
-        title: 'Caneca Mágica Desenvolvedor',
-        description: 'Caneca que revela o código quando você coloca café quente!',
-        price: 49.99,
-        shopeeLink: 'https://shopee.com.br/exemplo2',
-        images: ['caneca-dev-1.jpg'],
-        categoryId: categorias[1].id // ID de Canecas
+        slug: 'toppers-fauna-brasileira',
+        title: 'Toppers Fauna Brasileira',
+        description: 'Toppers para festa infantil tema Fauna Brasileira. Toppers para cupcake ou docinho, com recorte especial, colado no palitinho branco. Impresso em papel glossy 230g',
+        price: 1.0,
+        shopeeLink: 'https://shopee.com.br/Toppers-Fauna-Brasileira-i.315535138.23098202072',
+        images: ['https://down-br.img.susercontent.com/file/br-11134207-7r98o-m68al7efgrlec1@resize_w900_nl.webp'],
+        categoryId: categorias[0].id // fauna brasileira
       },
       {
-        slug: 'quadro-decorativo-react',
-        title: 'Quadro Decorativo ReactJS',
+        slug: 'tubete-fauna-brasileira',
+        title: 'Tubete Fauna Brasileira',
         description: 'Quadro minimalista com o logo do React.',
-        price: 29.90,
-        shopeeLink: 'https://shopee.com.br/exemplo3',
-        images: ['quadro-react.jpg'],
-        categoryId: categorias[2].id // ID de Decoração
+        price: 3.90,
+        shopeeLink: 'https://shopee.com.br/Tubete-Fauna-Brasileira-i.315535138.20498029697',
+        images: ['https://down-br.img.susercontent.com/file/br-11134207-7r98o-m6d3n0rczpmtf0@resize_w900_nl.webp'],
+        categoryId: categorias[0].id // fauna brasileira
       },
       {
-        slug: 'produto-sem-categoria',
-        title: 'Adesivos Sortidos',
-        description: 'Pacote com 50 adesivos sortidos para notebook.',
-        price: 15.00,
-        shopeeLink: 'https://shopee.com.br/exemplo4',
-        images: ['adesivos.jpg'],
-        categoryId: null // Testando a permissão de produto sem categoria
-      }
+        slug: 'forminha-festa-fauna-brasileira',
+        title: 'Forminha Festa Fauna Brasileira',
+        description: 'Forminha Festa Fauna Brasileira.',
+        price: 0.75,
+        shopeeLink: 'https://shopee.com.br/Forminha-Festa-Fauna-Brasileira-i.315535138.22294455156',
+        images: ['https://down-br.img.susercontent.com/file/br-11134207-81z1k-mf2gt0qbo5c7c4@resize_w900_nl.webp'],
+        categoryId: categorias[0].id // fauna brasileira
+      },
+      {
+        slug: 'topper-docinhos-festa-dinossauros',
+        title: 'Topper para Docinhos Festa Dinossauros',
+        description: '30 ou 50 Toppers para cupcake ou docinho, com recorte especial, colado no palitinho branco, tema dinossauros. Impresso em papel glossy 230g',
+        price: 1.0,
+        shopeeLink: 'https://shopee.com.br/Topper-para-Docinhos-Festa-Dinossauros-i.315535138.23998437619',
+        images: ['https://down-br.img.susercontent.com/file/br-11134207-7r98o-m9eh83s5rqpu88@resize_w450_nl.webp'],
+        categoryId: categorias[1].id // dinossauro
+      },
+      {
+        slug: 'topo-de-bolo-personalizado',
+        title: 'Topo de Bolo Personalizado Festa Dinossauros',
+        description: 'Topo de Bolo personalizado impresso em papel glossy 230g, colado em canudo de papel colorido, no tema dinossauro. Acompanha 10 toppers para colocar no bolo, docinhos ou cupcakes, colados em palito plástico branco Entre em contato e monte seu KIT FESTA com todos os itens combinando com essa arte. Todos os produtos da loja Léa Foto e Arte podem ser feitos com esses desenhos (convite, tubete, bandeirola, forminhas, caixinhas). Ao enviar o pedido, envie imediatamente o nome e a idade que serão colocados no topo de bolo',
+        price: 43.0,
+        shopeeLink: 'https://shopee.com.br/Topo-de-Bolo-Personalizado-Festa-Dinossauros-i.315535138.23193956838',
+        images: ['https://down-br.img.susercontent.com/file/br-11134207-7r98o-m9eh83s5t5aa0c@resize_w450_nl.webp'],
+        categoryId: categorias[1].id // dinossauro
+      },
+      {
+        slug: 'forminha-docinhos-dinossauro',
+        title: 'Forminha para Docinhos Festa Dinossauros',
+        description: 'Forminha Festa Infantil tema Dinossauros A forminha tem 3,3 x 3,3 de base e 2,4 cm de altura Impressão da forminha frente e verso, em papel offset 240. Impressão dos apliques no tema, em papel glossy 230g',
+        price: 1.5,
+        shopeeLink: 'https://shopee.com.br/Forminha-para-Docinhos-Festa-Dinossauros-i.315535138.23998437541',
+        images: ['https://down-br.img.susercontent.com/file/br-11134207-7r98o-m9eh83s5jbb6f7@resize_w450_nl.webp'],
+        categoryId: categorias[1].id // dinossauro
+      },
+      {
+        slug: 'caixinha-milk-festa-dinossauros',
+        title: 'Caixinha Milk Festa Infantil Dinossauros',
+        description: 'Caixinha Milk Festa Dinossauros Impressa em papel offset 240g. Aplique no tema impresso em papel glossy com brilho. A caixa é enviada desmontada, não precisa de cola para a montagem, é só encaixe. Fita enviada já cortada, para o cliente fazer o laço após colocar as guloseimas na caixinha. Medida da base: 6 x 6cm Altura: 12cm Envie o nome e a idade assim que fizer o pedido.',
+        price: 6.50,
+        shopeeLink: 'https://shopee.com.br/Caixinha-Milk-Festa-Infantil-Dinossauros-i.315535138.23293956779',
+        images: ['https://down-br.img.susercontent.com/file/br-11134207-7r98o-m9ehhbrxs4xucd@resize_w450_nl.webp'],
+        categoryId: categorias[1].id // dinossauro
+      },
     ]);
     console.log('Produtos criados!');
 

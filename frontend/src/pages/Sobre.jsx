@@ -1,9 +1,19 @@
 import Testimonies from "../components/Testimonies"
 import ProductCarousel from "../components/ProductCarousel";
 import Container from "../components/Container.jsx";
-import { produtos, depoimentos } from "../assets/mock.js"
+import { depoimentos } from "../assets/mock.js"
+import { useState, useEffect } from "react";
 
 function Sobre() {
+  const [produtoCat, setprodutoCat] = useState([]);
+
+  useEffect(() => {
+    fetch(`http://localhost:3000/api/produtos/categoria/fauna-brasileira`)
+      .then(res => res.json())
+      .then(data => setprodutoCat(data.produtos))
+      .catch(console.error);
+  }, []);
+
   return (
     <main>
       <Container className="flex flex-col-reverse lg:flex-row p-4 gap-8 w-full">
@@ -38,7 +48,7 @@ function Sobre() {
       </section>
       <Container className="py-4">
         <h2 className="text-center py-2 font-viminalis text-2xl lg:text-4xl">Monte sua próxima festa com a gente!</h2>
-        <ProductCarousel produtos={produtos}/>
+        <ProductCarousel produtos={produtoCat}/>
       </Container>
     </main>
   )

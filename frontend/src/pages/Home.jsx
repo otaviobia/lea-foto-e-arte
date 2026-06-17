@@ -12,7 +12,7 @@ function Home() {
   const [produtoCat, setprodutoCat] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/api/produtos/categoria/papelaria`)
+    fetch(`http://localhost:3000/api/produtos/categoria/fauna-brasileira`)
       .then(res => res.json())
       .then(data => setprodutoCat(data.produtos))
       .catch(console.error);

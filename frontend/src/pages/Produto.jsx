@@ -9,17 +9,17 @@ export default function Produto() {
 
   return (
     <Container>
-      <section className="w-full flex flex-col lg:flex-row gap-5">
+      <section className="w-full flex flex-col lg:flex-row gap-5 p-4">
         
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 lg:w-1/2">
           {produto.images.map((url) => (
-            <img src={url} alt="Imagem do produto" />
+            <img className="rounded-4xl" src={url} alt="Imagem do produto" />
           ))}
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 lg:w-1/2">
           <div className="flex flex-col gap-5">
             <h2 className='font-viminalis text-2xl'>{produto.title}</h2>
-            <p className='font-viminalis text-lfapink text-2xl'>R$ {produto.price}</p>
+            <p className='font-viminalis text-lfapink text-2xl'>R$ {produto.price.toString().replace('.', ',')}</p>
           </div>
           
           <div className="flex flex-col align-center gap-2 w-full">
