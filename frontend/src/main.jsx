@@ -15,9 +15,14 @@ import Produto from './pages/Produto.jsx'
 import { productLoader } from './api/productLoader.js'
 import Produtos from './pages/Produtos.jsx'
 import Loading from './components/Loading.jsx'
+import AdminLogin from './pages/Admin/Login.jsx'
+import AdminLayout from './pages/Admin/Layout.jsx'
+import AdminVendas from './pages/Admin/Vendas.jsx'
+import AdminProdutos from './pages/Admin/Produtos.jsx'
+import AdminRelatorios from './pages/Admin/Relatorios.jsx'
 
 const router = createBrowserRouter([
-  {
+  { // Rotas de usuário
     Component: RootLayout,
     hydrateFallbackElement: <Loading />,
     children: [
@@ -35,6 +40,17 @@ const router = createBrowserRouter([
       },
       { path: 'politicas-da-loja', Component: Politicas },
       { path: '*', Component: NotFound },
+    ]
+  },
+  { // Rotas de admin
+    hydrateFallbackElement: <Loading />,
+    path: 'admin',
+    children : [
+      { path: 'login', Component: AdminLogin },
+      { path: 'layout', Component: AdminLayout },
+      { path: 'produtos', Component: AdminProdutos },
+      { path: 'vendas', Component: AdminVendas },
+      { path: 'relatorios', Component: AdminRelatorios },
     ]
   },
 ])

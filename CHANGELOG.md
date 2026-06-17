@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Add the 5 admin pages: login, layout, products, sales and dashboard
 - Made category carousel fetch the categories from API
 - Added product grid page accessible from categories
 - New category route to fetch only one by slug
