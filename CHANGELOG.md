@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Used swiper to create image carousel on product page
+- Integrated Admin Login and Logout
+- Added auth verification to backend routes and frontend pages
+- Created admin model, controller and middleware (using bcrypt and jwt)
 - Add the 5 admin pages: login, layout, products, sales and dashboard
 - Made category carousel fetch the categories from API
 - Added product grid page accessible from categories

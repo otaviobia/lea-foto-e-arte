@@ -36,3 +36,17 @@
   font-style: normal;
   font-display: swap; 
 }
+
+/* Efeito de opacidade nas miniaturas do Swiper */
+.thumbs-carousel .swiper-slide {
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.thumbs-carousel .swiper-slide-thumb-active {
+  opacity: 1;
+}
+
+.thumbs-carousel .swiper-slide-thumb-active img {
+  border: 2px solid var(--color-lfapink);
+}

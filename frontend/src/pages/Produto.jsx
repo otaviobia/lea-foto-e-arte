@@ -1,8 +1,18 @@
 import { useLoaderData } from 'react-router';
 import Container from '../components/Container';
 
+import { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/navigation';
+import 'swiper/css/thumbs';
+
 export default function Produto() {
-  const { produto } = useLoaderData(); 
+  const { produto } = useLoaderData();
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   const mensagemWhatsapp = encodeURIComponent(`Tenho interesse no produto ${produto.title}`);
   const linkWhatsapp = `https://wa.me/5516997158260?text=${mensagemWhatsapp}`;
@@ -10,11 +20,48 @@ export default function Produto() {
   return (
     <Container>
       <section className="w-full flex flex-col lg:flex-row gap-5 p-4">
-        
-        <div className="flex flex-col gap-5 lg:w-1/2">
-          {produto.images.map((url) => (
-            <img className="rounded-4xl" src={url} alt="Imagem do produto" />
-          ))}
+        <div className="flex flex-col gap-3 lg:w-1/2 min-w-0">
+          {/* Swiper Principal (Imagem grande) */}
+          <Swiper
+            spaceBetween={10}
+            navigation={true}
+            thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
+            modules={[FreeMode, Navigation, Thumbs]}
+            className="w-full"
+          >
+            {produto.images.map((url, index) => (
+              <SwiperSlide key={index}>
+                <img 
+                  className="w-full aspect-square object-cover rounded-4xl" 
+                  src={url} 
+                  alt={`Imagem do produto ${index + 1}`} 
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+
+          {/* Swiper de Thumbnails (Miniaturas) */}
+          {produto.images.length > 1 && (
+            <Swiper
+              onSwiper={setThumbsSwiper}
+              spaceBetween={10}
+              slidesPerView={4}
+              freeMode={true}
+              watchSlidesProgress={true}
+              modules={[FreeMode, Navigation, Thumbs]}
+              className="w-full thumbs-carousel"
+            >
+              {produto.images.map((url, index) => (
+                <SwiperSlide key={`thumb-${index}`}>
+                  <img 
+                    className="w-full aspect-square object-cover rounded-xl cursor-pointer hover:opacity-80 transition-opacity" 
+                    src={url} 
+                    alt={`Miniatura ${index + 1}`} 
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          )}
         </div>
         <div className="flex flex-col gap-5 lg:w-1/2">
           <div className="flex flex-col gap-5">
