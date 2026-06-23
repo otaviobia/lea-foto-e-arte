@@ -30,7 +30,7 @@ function AdminLogin() {
       } else {
         setError(data.error);
       }
-    } catch (err) {
+    } catch {
       setError('Erro ao conectar com o servidor');
     }
   };

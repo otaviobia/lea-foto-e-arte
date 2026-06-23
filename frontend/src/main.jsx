@@ -21,6 +21,7 @@ import AdminVendas from './pages/Admin/Vendas.jsx'
 import AdminProdutos from './pages/Admin/Produtos.jsx'
 import AdminRelatorios from './pages/Admin/Relatorios.jsx'
 import AdminRootLayout from './layouts/AdminRootLayout'
+import AdminClientes from './pages/Admin/Clientes.jsx'
 
 const router = createBrowserRouter([
   { // Rotas de usuário
@@ -52,6 +53,7 @@ const router = createBrowserRouter([
           { index: true, element: <Navigate to="/admin/layout" replace /> },
           { path: 'layout', Component: AdminLayout },
           { path: 'produtos', Component: AdminProdutos },
+          { path: 'clientes', Component: AdminClientes },
           { path: 'vendas', Component: AdminVendas },
           { path: 'relatorios', Component: AdminRelatorios },
         ]

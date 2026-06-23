@@ -39,12 +39,7 @@ function Home() {
         </Container>
       </section>
 
-      <section className="w-full bg-lfapink py-12">
-        <Container>
-          <h2 className="text-center text-white font-winterfun text-6xl">Depoimentos</h2>
-          <Testimonies testimonies={depoimentos}/>
-        </Container>
-      </section>
+      <Testimonies testimonies={depoimentos}/>
 
       {destaques.map((destaque) => (
         <section key={destaque.id} className="w-full bg-white py-4">

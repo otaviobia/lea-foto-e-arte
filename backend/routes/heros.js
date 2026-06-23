@@ -1,8 +1,19 @@
 import express from 'express';
 import { Hero } from '../models/index.js';
 import { verifyToken } from '../middleware/auth.js';
+import multer from 'multer';
+import path from 'path';
 
 const router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) { cb(null, 'uploads/'); },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'hero-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage });
 
 // GET: Buscar banners ativos (Para a Home)
 router.get('/ativos', async (req, res) => {
@@ -28,11 +39,16 @@ router.get('/', async (req, res) => {
 });
 
 // POST: Criar novo banner
-router.post('/', verifyToken, async (req, res) => {
+router.post('/', verifyToken, upload.single('image'), async (req, res) => {
   try {
-    const newHero = await Hero.create(req.body);
+    const heroData = { ...req.body };
+    if (req.file) {
+      heroData.image = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    }
+    const newHero = await Hero.create(heroData);
     res.status(201).json({ hero: newHero });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ erro: 'Erro ao criar banner' });
   }
 });

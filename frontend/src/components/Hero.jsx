@@ -19,7 +19,7 @@ function Hero ({ heros }) {
       className="w-full aspect-video lg:aspect-auto"
     >
       {heros.map((hero, id) =>
-        <SwiperSlide key={id} className="h-full w-full">
+        <SwiperSlide key={id} className="h-full w-full aspect-21/9 lg:aspect-32/9">
           <img className="block w-full h-full object-cover" src={hero.image} alt={"Imagem " + id} />
         </SwiperSlide>
       )}

@@ -32,6 +32,7 @@ export async function login(req, res) {
 
     res.json({ message: 'Login successful', token });
   } catch (error) {
+    console.error("🔥 ERRO REAL NO LOGIN:", error);
     res.status(500).json({ error: 'Login failed' });
   }
 }

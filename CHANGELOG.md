@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Made testimonies div be wavy again
+- Fully integrated Customers, Sales and Reports
 - Used swiper to create image carousel on product page
 - Integrated Admin Login and Logout
 - Added auth verification to backend routes and frontend pages

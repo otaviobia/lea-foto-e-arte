@@ -1,8 +1,19 @@
 import express from 'express';
 import { Category, Product } from '../models/index.js';
 import { verifyToken } from '../middleware/auth.js';
+import multer from 'multer';
+import path from 'path';
 
 const router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) { cb(null, 'uploads/'); },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, 'produto-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+const upload = multer({ storage });
 
 // Rota para buscar todos os produtos, ordenados por título
 router.get('/', async (req, res) => {
@@ -61,11 +72,16 @@ router.get('/categoria/:categorySlug', async (req, res) => {
 });
 
 // Rota para criar um novo produto (cria a slug automaticamente a partir do título)
-router.post('/', verifyToken, async (req, res) => {
-  const { title, description, price, shopeeLink, images, categoryId } = req.body;
+router.post('/', verifyToken, upload.array('images'), async (req, res) => {
+  const { title, description, price, shopeeLink, categoryId } = req.body;
 
   try {
     const slug = title.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+    let imageUrls = [];
+    if (req.files && req.files.length > 0) {
+      imageUrls = req.files.map(file => `${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+    }
 
     const newProduct = await Product.create({
       slug,
@@ -73,7 +89,7 @@ router.post('/', verifyToken, async (req, res) => {
       description,
       price,
       shopeeLink,
-      images,
+      images: imageUrls,
       categoryId,
     });
 
@@ -85,9 +101,9 @@ router.post('/', verifyToken, async (req, res) => {
 });
 
 // PUT: Atualizar um produto existente
-router.put('/:id', verifyToken, async (req, res) => {
+router.put('/:id', verifyToken, upload.array('images'), async (req, res) => {
   const { id } = req.params;
-  const { title, description, price, shopeeLink, images, categoryId } = req.body;
+  const { title, description, price, shopeeLink, categoryId } = req.body;
 
   try {
     const product = await Product.findByPk(id);
@@ -102,13 +118,19 @@ router.put('/:id', verifyToken, async (req, res) => {
       slug = title.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     }
 
+    // Mantém as imagens antigas por padrão. Se subiu imagens novas, substitui.
+    let imageUrls = product.images;
+    if (req.files && req.files.length > 0) {
+      imageUrls = req.files.map(file => `${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+    }
+
     await product.update({
       slug,
       title,
       description,
       price,
       shopeeLink,
-      images,
+      images: imageUrls,
       categoryId,
     });
 

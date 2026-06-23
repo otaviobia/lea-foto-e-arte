@@ -40,12 +40,7 @@ function Sobre() {
         <img className="hidden lg:block w-1/2 object-contain" src="/images/sobre-desktop.png" alt="Sobre"/>
         <img className="block lg:hidden" src="/images/sobre-mobile.png" alt="Sobre"/>
       </Container>
-      <section className="w-full bg-lfapink py-12">
-        <Container className="p-4">
-          <h2 className="text-white font-winterfun text-6xl text-center pb-2">Depoimentos</h2>
-          <Testimonies testimonies={depoimentos}/>
-        </Container>
-      </section>
+      <Testimonies testimonies={depoimentos}/>
       <Container className="py-4">
         <h2 className="text-center py-2 font-viminalis text-2xl lg:text-4xl">Monte sua próxima festa com a gente!</h2>
         <ProductCarousel produtos={produtoCat}/>

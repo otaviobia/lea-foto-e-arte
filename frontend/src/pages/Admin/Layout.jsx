@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { FaImage, FaStar, FaTrash, FaArrowUp, FaArrowDown } from "react-icons/fa";
+import { FaImage, FaStar, FaTrash, FaArrowUp, FaArrowDown, FaUpload } from "react-icons/fa";
 
 function AdminLayout() {
   const [categorias, setCategorias] = useState([]);
@@ -18,12 +18,13 @@ function AdminLayout() {
 
   // 2. Função para Ativar / Desativar o Destaque
   const handleToggleFeatured = async (id, statusAtual) => {
+    const token = localStorage.getItem('admin_token');
     const novoStatus = !statusAtual;
 
     try {
       const response = await fetch(`http://localhost:3000/api/categorias/${id}/destaque`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ isFeatured: novoStatus })
       });
 
@@ -58,6 +59,8 @@ function AdminLayout() {
 
   // 4. Envia a ordem atual da tela para salvar definitivamente no Banco de Dados
   const handleSalvarOrdenacao = async () => {
+    const token = localStorage.getItem('admin_token');
+
     // Filtra apenas as que estão destacadas e mapeia gerando o index correto da ordem (0, 1, 2...)
     const listaParaEnviar = categorias
       .filter(cat => cat.isFeatured)
@@ -69,7 +72,7 @@ function AdminLayout() {
     try {
       const response = await fetch('http://localhost:3000/api/categorias/reordenar-destaques', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ listaOrdenada: listaParaEnviar })
       });
 
@@ -84,14 +87,19 @@ function AdminLayout() {
   const handleDeleteCategory = async (id) => {
     if (!window.confirm("Tem certeza que deseja apagar?")) return;
     
-    await fetch(`http://localhost:3000/api/categorias/${id}`, { method: 'DELETE' });
+    const token = localStorage.getItem('admin_token');
+
+    await fetch(`http://localhost:3000/api/categorias/${id}`, { 
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
     setCategorias(categorias.filter(c => c.id !== id)); // Atualiza a tela
   };
 
   // Estados para o Modal de Categoria
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [newCategoryName, setNewCategoryName] = useState('');
-  const [newCategoryImage, setNewCategoryImage] = useState('');
+  const [categoryImageFile, setCategoryImageFile] = useState(null);
 
   // Função para criar a categoria no banco
   const handleCreateCategory = async (e) => {
@@ -101,11 +109,16 @@ function AdminLayout() {
       return alert("O nome da categoria é obrigatório!");
     }
 
+    const token = localStorage.getItem('admin_token');
+    const dataToSend = new FormData();
+    dataToSend.append('name', newCategoryName);
+    if (categoryImageFile) dataToSend.append('image', categoryImageFile);
+
     try {
       const response = await fetch('http://localhost:3000/api/categorias', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: newCategoryName, image: newCategoryImage })
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: dataToSend
       });
 
       if (response.ok) {
@@ -114,7 +127,7 @@ function AdminLayout() {
         setCategorias([...categorias, data.categoria]);
         // Limpa os campos e fecha o modal
         setNewCategoryName('');
-        setNewCategoryImage('');
+        setCategoryImageFile(null);
         setIsCategoryModalOpen(false);
       } else {
         const errorData = await response.json();
@@ -135,18 +148,27 @@ function AdminLayout() {
   // 2. Função para deletar
   const handleDeleteHero = async (id) => {
     if (!window.confirm("Tem certeza que deseja apagar?")) return;
+
+    const token = localStorage.getItem('admin_token');
     
-    await fetch(`http://localhost:3000/api/heros/${id}`, { method: 'DELETE' });
+    await fetch(`http://localhost:3000/api/heros/${id}`, { 
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
     setHeros(heros.filter(h => h.id !== id)); // Atualiza a tela
   };
 
   // 3. Função para ativar/desativar
   const handleToggleActive = async (hero) => {
     const updatedStatus = !hero.isActive;
+    const token = localStorage.getItem('admin_token');
     
     await fetch(`http://localhost:3000/api/heros/${hero.id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+       },
       body: JSON.stringify({ isActive: updatedStatus })
     });
     
@@ -171,6 +193,8 @@ function AdminLayout() {
 
   // Envia a nova ordem dos Banners para o Banco de Dados
   const handleSalvarOrdenacaoHeros = async () => {
+    const token = localStorage.getItem('admin_token');
+    
     const listaParaEnviar = heros.map((hero, index) => ({
       id: hero.id,
       order: index // Aqui a coluna do banco se chama 'order'
@@ -179,7 +203,10 @@ function AdminLayout() {
     try {
       const response = await fetch('http://localhost:3000/api/heros/reordenar', {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
         body: JSON.stringify({ listaOrdenada: listaParaEnviar })
       });
 
@@ -193,26 +220,25 @@ function AdminLayout() {
 
   // Estados para o Modal de Banners (Heros)
   const [isHeroModalOpen, setIsHeroModalOpen] = useState(false);
-  const [newHeroImage, setNewHeroImage] = useState('');
+  const [heroImageFile, setHeroImageFile] = useState(null);
 
   // Função para criar o banner no banco
   const handleCreateHero = async (e) => {
     e.preventDefault();
 
-    if (!newHeroImage) {
-      return alert("A URL da imagem é obrigatória!");
-    }
+    if (!heroImageFile) return alert("Selecione uma imagem!");
+
+    const token = localStorage.getItem('admin_token');
+    const dataToSend = new FormData();
+    dataToSend.append('isActive', true);
+    dataToSend.append('order', heros.length);
+    dataToSend.append('image', heroImageFile);
 
     try {
       const response = await fetch('http://localhost:3000/api/heros', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        // Já enviamos o novo banner como ativo e colocando ele no final da fila (order: heros.length)
-        body: JSON.stringify({ 
-          image: newHeroImage, 
-          isActive: true, 
-          order: heros.length 
-        })
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: dataToSend
       });
 
       if (response.ok) {
@@ -220,7 +246,7 @@ function AdminLayout() {
         // Adiciona o novo banner na tela
         setHeros([...heros, data.hero]);
         // Limpa e fecha o modal
-        setNewHeroImage('');
+        setHeroImageFile(null);
         setIsHeroModalOpen(false);
       } else {
         const errorData = await response.json();
@@ -374,14 +400,13 @@ function AdminLayout() {
                 />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-sm font-semibold">URL da Imagem de Capa</label>
+              <div className="flex flex-col gap-1 bg-gray-50 p-3 rounded border border-gray-200">
+                <label className="text-sm font-semibold flex items-center gap-2"><FaUpload /> Imagem de Capa</label>
                 <input 
-                  type="text" 
-                  value={newCategoryImage}
-                  onChange={(e) => setNewCategoryImage(e.target.value)}
-                  className="border border-gray-300 rounded-lg p-2 outline-none focus:border-lfapink"
-                  placeholder="Ex: /images/capa-casamento.jpg"
+                  type="file" 
+                  accept="image/*"
+                  onChange={(e) => setCategoryImageFile(e.target.files[0])}
+                  className="text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-gray-200 hover:file:bg-gray-300 cursor-pointer mt-1"
                 />
               </div>
 
@@ -410,14 +435,13 @@ function AdminLayout() {
             <h2 className="text-2xl font-bold font-viminalis">Adicionar Novo Banner</h2>
             
             <form onSubmit={handleCreateHero} className="flex flex-col gap-3">
-              <div className="flex flex-col gap-1">
-                <label className="text-sm font-semibold">URL da Imagem *</label>
+              <div className="flex flex-col gap-1 bg-gray-50 p-3 rounded border border-gray-200">
+                <label className="text-sm font-semibold flex items-center gap-2"><FaUpload /> Arquivo da Imagem *</label>
                 <input 
-                  type="text" 
-                  value={newHeroImage}
-                  onChange={(e) => setNewHeroImage(e.target.value)}
-                  className="border border-gray-300 rounded-lg p-2 outline-none focus:border-lfapink"
-                  placeholder="Ex: /images/banner-promocao.jpg"
+                  type="file" 
+                  accept="image/*"
+                  onChange={(e) => setHeroImageFile(e.target.files[0])}
+                  className="text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-gray-200 hover:file:bg-gray-300 cursor-pointer mt-1"
                   required
                 />
               </div>

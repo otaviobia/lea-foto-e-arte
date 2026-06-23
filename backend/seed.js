@@ -1,4 +1,4 @@
-import { Category, Product, Hero, Admin } from './models/index.js';
+import { Category, Product, Hero, Admin, Customer, Sale } from './models/index.js';
 import bcrypt from 'bcrypt';
 import sequelize from './config/database.js';
 
@@ -115,6 +115,65 @@ async function seedDatabase() {
       }
     ]);
     console.log('Heros (Banners) criados!');
+    
+    // Criando os Clientes
+    const clientes = await Customer.bulkCreate([
+      {
+        name: 'Maria Fernanda Silva',
+        cpf: '111.222.333-44',
+        email: 'maria.fernanda@email.com',
+        whatsapp: '(11) 99999-0001',
+        cep: '01001-000',
+        logradouro: 'Praça da Sé',
+        numero: '123',
+        complemento: 'Apto 42',
+        bairro: 'Sé',
+        cidade: 'São Paulo',
+        estado: 'SP'
+      },
+      {
+        name: 'João Pedro de Souza',
+        cpf: '555.666.777-88',
+        email: 'joao.pedro@email.com',
+        whatsapp: '(16) 98888-0002',
+        cep: '13560-000',
+        logradouro: 'Avenida São Carlos',
+        numero: '1000',
+        bairro: 'Centro',
+        cidade: 'São Carlos',
+        estado: 'SP'
+      },
+      {
+        name: 'Ana Beatriz Oliveira', // Cliente com dados parciais para testar
+        whatsapp: '(21) 97777-0003'
+      }
+    ]);
+    console.log('Clientes criados!');
+
+    // Criando as Vendas
+    await Sale.bulkCreate([
+      {
+        canal_venda: 'shopee',
+        status: 'concluido',
+        produtos_texto: '1x Topo de Bolo Fauna Brasileira, 50x Toppers Fauna Brasileira',
+        valor_total: 97.30,
+        valor_gastos: 18.50, // Taxa da Shopee + Custo material
+        link_xml_nf: 'https://seuservidor.com/notas/nf_12345.xml',
+        observacoes: 'Cliente pediu para embalar para presente. Envio rápido.',
+        customerId: clientes[0].id // Maria Fernanda
+      },
+      {
+        canal_venda: 'whatsapp',
+        status: 'aguardando_pagamento',
+        produtos_texto: '10x Caixinha Milk Festa Infantil Dinossauros',
+        valor_total: 65.00,
+        valor_gastos: 12.00, // Apenas custo material (sem taxa de canal)
+        link_xml_nf: null, // Nota ainda não gerada
+        observacoes: 'Aguardando envio do comprovante PIX pelo WhatsApp.',
+        customerId: clientes[1].id // João Pedro
+      }
+    ]);
+    console.log('Vendas criadas!');
 
     console.log('✅ Mock data inserido com sucesso!');
     process.exit(0);

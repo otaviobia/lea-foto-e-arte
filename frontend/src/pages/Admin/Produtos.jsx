@@ -1,4 +1,4 @@
-import { FaPlus, FaPencilAlt, FaTrash } from "react-icons/fa";
+import { FaPlus, FaPencilAlt, FaTrash, FaUpload } from "react-icons/fa";
 import { FiExternalLink } from "react-icons/fi";
 import { useState, useEffect } from "react";
 
@@ -15,9 +15,9 @@ function AdminProdutos() {
     price: '',
     description: '',
     shopeeLink: '',
-    images: '',
     categoryId: ''
   });
+  const [imageFiles, setImageFiles] = useState([]);
 
   useEffect(() => {
     // Busca Produtos
@@ -42,24 +42,33 @@ function AdminProdutos() {
         price: produto.price || '',
         description: produto.description || '',
         shopeeLink: produto.shopeeLink || '',
-        images: produto.images ? produto.images.join(', ') : '', // Transforma array em string separada por vírgula
         categoryId: produto.categoryId || ''
       });
     } else {
       setEditingId(null);
-      setFormData({ title: '', price: '', description: '', shopeeLink: '', images: '', categoryId: '' });
+      setFormData({ title: '', price: '', description: '', shopeeLink: '', categoryId: '' });
     }
+    setImageFiles([]);
     setIsModalOpen(true);
   };
 
   // Função para Deletar
   const handleDelete = async (id) => {
     if (!window.confirm("Tem certeza que deseja apagar este produto?")) return;
+    const token = localStorage.getItem('admin_token');
 
     try {
-      const res = await fetch(`http://localhost:3000/api/produtos/${id}`, { method: 'DELETE' });
+      const res = await fetch(`http://localhost:3000/api/produtos/${id}`, { 
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
       if (res.ok) {
         setProdutos(produtos.filter(p => p.id !== id));
+      } else {
+        const errorData = await res.json();
+        alert(errorData.erro || "Erro ao deletar o produto.");
       }
     } catch (err) {
       console.error("Erro ao deletar:", err);
@@ -71,13 +80,19 @@ function AdminProdutos() {
     e.preventDefault();
 
     // Tratamento dos dados antes de enviar
-    const payload = {
-      ...formData,
-      price: parseFloat(formData.price),
-      categoryId: formData.categoryId ? parseInt(formData.categoryId) : null,
-      // Transforma a string separada por vírgulas de volta em uma Array de strings
-      images: formData.images.split(',').map(img => img.trim()).filter(img => img !== '')
-    };
+    const token = localStorage.getItem('admin_token');
+    const dataToSend = new FormData();
+    dataToSend.append('title', formData.title);
+    dataToSend.append('price', parseFloat(formData.price));
+    dataToSend.append('description', formData.description);
+    dataToSend.append('shopeeLink', formData.shopeeLink);
+    if (formData.categoryId) dataToSend.append('categoryId', parseInt(formData.categoryId));
+
+    if (imageFiles.length > 0) {
+      Array.from(imageFiles).forEach(file => {
+        dataToSend.append('images', file);
+      });
+    }
 
     const url = editingId 
       ? `http://localhost:3000/api/produtos/${editingId}` 
@@ -88,8 +103,8 @@ function AdminProdutos() {
     try {
       const response = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: dataToSend
       });
 
       if (response.ok) {
@@ -186,12 +201,18 @@ function AdminProdutos() {
                 <input type="url" value={formData.shopeeLink} onChange={(e) => setFormData({...formData, shopeeLink: e.target.value})} className="border rounded p-2 outline-none focus:border-lfapink" />
               </div>
 
-              <div className="flex flex-col gap-1">
-                <label className="text-sm font-semibold text-gray-700 flex justify-between">
-                  <span>Imagens (URLs)</span> 
-                  <span className="text-xs font-normal text-gray-500">Separe por vírgula</span>
-                </label>
-                <textarea rows="2" value={formData.images} onChange={(e) => setFormData({...formData, images: e.target.value})} className="border rounded p-2 outline-none focus:border-lfapink text-sm" placeholder="http://imagem1.jpg, http://imagem2.jpg"></textarea>
+              <div className="flex flex-col gap-1 bg-gray-50 p-3 rounded border border-gray-200">
+                <label className="text-sm font-semibold flex items-center gap-2"><FaUpload /> Fotos do Produto</label>
+                <input 
+                  type="file" 
+                  accept="image/*"
+                  multiple 
+                  onChange={(e) => setImageFiles(e.target.files)} 
+                  className="text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-gray-200 hover:file:bg-gray-300 cursor-pointer mt-1" 
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  {editingId ? "Selecione arquivos para substituir as fotos atuais, ou deixe em branco para manter as que já estão." : "Você pode selecionar várias fotos segurando a tecla Ctrl ou Shift."}
+                </p>
               </div>
 
               <div className="flex flex-col gap-1">

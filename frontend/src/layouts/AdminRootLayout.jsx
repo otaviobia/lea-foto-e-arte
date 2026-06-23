@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Outlet, NavLink, Link, Navigate, useNavigate } from 'react-router';
-import { FiMenu, FiX, FiHome, FiBox, FiShoppingCart, FiFileText, FiLogOut } from 'react-icons/fi';
+import { FiMenu, FiX, FiHome, FiBox, FiShoppingCart, FiFileText, FiLogOut, FiUser } from 'react-icons/fi';
 
 export default function AdminRootLayout() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  
   // 1. VERIFICAÇÃO DE SEGURANÇA
   const token = localStorage.getItem('admin_token');
   const navigate = useNavigate();
@@ -12,7 +14,6 @@ export default function AdminRootLayout() {
     return <Navigate to="/admin/login" replace />;
   }
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   // 2. FUNÇÃO DE LOGOUT
@@ -52,6 +53,9 @@ export default function AdminRootLayout() {
             </NavLink>
             <NavLink to="/admin/produtos" className={navLinkStyle}>
               <FiBox /> Produtos
+            </NavLink>
+            <NavLink to="/admin/clientes" className={navLinkStyle}>
+              <FiUser /> Clientes
             </NavLink>
             <NavLink to="/admin/vendas" className={navLinkStyle}>
               <FiShoppingCart /> Vendas
