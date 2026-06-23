@@ -1,6 +1,7 @@
 import Category from './Category.js';
 import Product from './Product.js';
 import Hero from './Hero.js';
+import Admin from './Admin.js';
 
 Product.belongsTo(Category, { 
   foreignKey: 'categoryId',
@@ -12,4 +13,4 @@ Category.hasMany(Product, {
   as: 'products'
 });
 
-export { Category, Product, Hero };
+export { Category, Product, Hero, Admin };

@@ -1,5 +1,6 @@
 import express from 'express';
 import { Category, Product } from '../models/index.js';
+import { verifyToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -60,8 +61,7 @@ router.get('/categoria/:categorySlug', async (req, res) => {
 });
 
 // Rota para criar um novo produto (cria a slug automaticamente a partir do título)
-// TODO: Permitir apenas usuários autenticados criarem produtos
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   const { title, description, price, shopeeLink, images, categoryId } = req.body;
 
   try {
@@ -85,7 +85,7 @@ router.post('/', async (req, res) => {
 });
 
 // PUT: Atualizar um produto existente
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
   const { title, description, price, shopeeLink, images, categoryId } = req.body;
 
@@ -120,7 +120,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE: Remover um produto
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
 
   try {

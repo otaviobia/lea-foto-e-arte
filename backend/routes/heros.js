@@ -1,5 +1,6 @@
 import express from 'express';
 import { Hero } from '../models/index.js';
+import { verifyToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -27,7 +28,7 @@ router.get('/', async (req, res) => {
 });
 
 // POST: Criar novo banner
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   try {
     const newHero = await Hero.create(req.body);
     res.status(201).json({ hero: newHero });
@@ -37,7 +38,7 @@ router.post('/', async (req, res) => {
 });
 
 // PUT: Reordenar banners
-router.put('/reordenar', async (req, res) => {
+router.put('/reordenar', verifyToken, async (req, res) => {
   const { listaOrdenada } = req.body;
 
   if (!listaOrdenada || !Array.isArray(listaOrdenada)) {
@@ -62,7 +63,7 @@ router.put('/reordenar', async (req, res) => {
 });
 
 // PUT: Atualizar banner (ordem, ativo/inativo, imagem)
-router.put('/:id', async (req, res) => {
+router.put('/:id', verifyToken, async (req, res) => {
   try {
     await Hero.update(req.body, { where: { id: req.params.id } });
     res.json({ mensagem: 'Banner atualizado' });
@@ -72,7 +73,7 @@ router.put('/:id', async (req, res) => {
 });
 
 // DELETE: Remover banner
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   try {
     await Hero.destroy({ where: { id: req.params.id } });
     res.json({ mensagem: 'Banner removido' });

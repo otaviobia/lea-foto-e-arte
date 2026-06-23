@@ -1,11 +1,11 @@
 import express from 'express';
 import { Category, Product } from '../models/index.js';
+import { verifyToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // Rota para criar uma nova categoria (cria a slug automaticamente a partir do nome)
-// TODO: Adicionar autenticação e autorização para esta rota
-router.post('/', async (req, res) => {
+router.post('/', verifyToken, async (req, res) => {
   const { name, image } = req.body;
 
   if (!name) {
@@ -54,7 +54,7 @@ router.get('/destaques', async (req, res) => {
 });
 
 // 2. Rota para ligar/desligar o destaque de uma categoria específica (Admin)
-router.put('/:id/destaque', async (req, res) => {
+router.put('/:id/destaque', verifyToken, async (req, res) => {
   const { id } = req.params;
   const { isFeatured } = req.body;
 
@@ -77,7 +77,7 @@ router.put('/:id/destaque', async (req, res) => {
 
 // 3. Rota para salvar a nova ordem das categorias destacadas (Admin)
 // Espera receber no body: { listaOrdenada: [ { id: 1, ordem: 0 }, { id: 3, ordem: 1 } ] }
-router.put('/reordenar-destaques', async (req, res) => {
+router.put('/reordenar-destaques', verifyToken, async (req, res) => {
   const { listaOrdenada } = req.body;
 
   if (!listaOrdenada || !Array.isArray(listaOrdenada)) {
@@ -123,8 +123,7 @@ router.get('/:slug', async (req, res) => {
 });
 
 // Rota para remover uma categoria por id e colocar todos os produtos associados a ela como "sem categoria"
-// TODO: Permitir apenas usuários autenticados removerem categorias
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
 
   try {

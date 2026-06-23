@@ -5,6 +5,8 @@ import categorias from './routes/categorias.js';
 import produtos from './routes/produtos.js';
 import heros from './routes/heros.js';
 import cors from 'cors';
+import { login, register } from './controllers/authController.js';
+import { verifyToken } from './middleware/auth.js';
 
 const app = express();
 
@@ -17,6 +19,9 @@ app.use(cors({
 app.use('/api/categorias', categorias);
 app.use('/api/produtos', produtos);
 app.use('/api/heros', heros);
+
+app.post('/login', login);
+app.post('/register', verifyToken, register);
 
 const PORT = process.env.PORT || 3000;
 

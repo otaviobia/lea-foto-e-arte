@@ -1,4 +1,5 @@
-import { Category, Product, Hero } from './models/index.js';
+import { Category, Product, Hero, Admin } from './models/index.js';
+import bcrypt from 'bcrypt';
 import sequelize from './config/database.js';
 
 async function seedDatabase() {
@@ -8,6 +9,9 @@ async function seedDatabase() {
 
     await sequelize.sync({ force: true }); // apaga todos os dados e recria
     console.log('Tabelas sincronizadas.');
+
+    const admin = await Admin.create({ username: 'admin', password: bcrypt.hashSync('admin123', 10) });
+    console.log('Admin criado!');
 
     const categorias = await Category.bulkCreate([
       { slug: 'fauna-brasileira', name: 'Fauna Brasileira', image: 'https://d2cp7y84leain9.cloudfront.net/17/pastas/thumb/folder-1778957287801.webp', isFeatured: true, featuredOrder: 0 },
