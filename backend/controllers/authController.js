@@ -28,11 +28,10 @@ export async function login(req, res) {
     const isValidPassword = await bcrypt.compare(password, admin.password);
     if (!isValidPassword) return res.status(401).json({ error: 'Usuário ou senha inválidos' });
 
-    const token = jwt.sign({ id: admin.id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: admin.id }, JWT_SECRET, { expiresIn: '7d' });
 
     res.json({ message: 'Login successful', token });
   } catch (error) {
-    console.error("🔥 ERRO REAL NO LOGIN:", error);
     res.status(500).json({ error: 'Login failed' });
   }
 }

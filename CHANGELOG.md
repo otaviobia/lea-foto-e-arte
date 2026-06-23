@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Made login token expire in 7d instead of 1hr
+- Made some pages cover more of the screen when low on content
+- Added related products to product page
+- Prettified FAQ section
+- Added WhatsApp circle
+- Added multer for uploads
 - Made testimonies div be wavy again
 - Fully integrated Customers, Sales and Reports
 - Used swiper to create image carousel on product page

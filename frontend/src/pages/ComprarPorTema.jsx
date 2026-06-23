@@ -14,7 +14,7 @@ function ComprarPorTema() {
 
   return (
     <main>
-      <Container className="text-center py-4">
+      <Container className="text-center py-4 min-h-[70vh]">
         <h1 className="font-winterfun text-lfapink text-6xl">Compre por Tema!</h1>
         <h2 className="font-viminalis text-2xl">Escolha o tema perfeito para você e veja todos os nossos produtos!</h2>
         <CategoryGrid categories={categorias} />

@@ -50,3 +50,16 @@
 .thumbs-carousel .swiper-slide-thumb-active img {
   border: 2px solid var(--color-lfapink);
 }
+
+@layer utilities {
+  .animate-bounce-once {
+    animation: custom-bounce 1.2s ease-out 1 forwards;
+  }
+
+  @keyframes custom-bounce {
+    0%, 100% { transform: translateY(0); }
+    25% { transform: translateY(-10px); }
+    50% { transform: translateY(0); }
+    75% { transform: translateY(-10px); }
+  }
+}

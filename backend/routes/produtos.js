@@ -32,16 +32,17 @@ router.get('/', async (req, res) => {
 // Rota para buscar um produto pela slug
 router.get('/:slug', async (req, res) => {
   const { slug } = req.params;
-
   try {
     const product = await Product.findOne({
       where: { slug },
+      include: {
+        model: Category,
+        as: 'category',
+      },
     });
-
     if (!product) {
       return res.status(404).json({ erro: 'Produto não encontrado' });
     }
-
     res.json({ produto: product });
   } catch (err) {
     console.error(err);

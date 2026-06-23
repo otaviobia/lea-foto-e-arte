@@ -24,7 +24,7 @@ function Produtos() {
   }, [params]);
 
   return (
-    <Container className="p-4">
+    <Container className="p-4 min-h-[67vh]">
       <h2 className="font-viminalis text-4xl text-center">Produtos de {categoria.name}</h2>
       { produtoCat.length > 0 ?
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

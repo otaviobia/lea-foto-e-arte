@@ -9,9 +9,10 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
+import ProductCarousel from '../components/ProductCarousel';
 
 export default function Produto() {
-  const { produto } = useLoaderData();
+  const { produto, produtosDaCategoria } = useLoaderData();
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   const mensagemWhatsapp = encodeURIComponent(`Tenho interesse no produto ${produto.title}`);
@@ -89,6 +90,14 @@ export default function Produto() {
           </div>
         </div>
       </section>
+      {produtosDaCategoria.length > 0 && 
+        <>
+        <h2 className="text-center font-viminalis text-4xl py-4">
+          Veja outros produtos desse tema!
+        </h2>
+        <ProductCarousel produtos={produtosDaCategoria}/>
+        </>
+      }
     </Container>
   );
 }
