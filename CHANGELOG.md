@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Refactored code and executed prettifier
 - Made login token expire in 7d instead of 1hr
 - Made some pages cover more of the screen when low on content
 - Added related products to product page

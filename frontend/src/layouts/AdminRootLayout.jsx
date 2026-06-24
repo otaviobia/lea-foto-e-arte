@@ -1,48 +1,60 @@
 import { useState } from 'react';
 import { Outlet, NavLink, Link, Navigate, useNavigate } from 'react-router';
-import { FiMenu, FiX, FiHome, FiBox, FiShoppingCart, FiFileText, FiLogOut, FiUser } from 'react-icons/fi';
+import {
+  FiMenu,
+  FiX,
+  FiHome,
+  FiBox,
+  FiShoppingCart,
+  FiFileText,
+  FiLogOut,
+  FiUser,
+} from 'react-icons/fi';
+import { Toaster } from 'react-hot-toast';
+import { ConfirmProvider } from '../hooks/ConfirmContext';
 
 export default function AdminRootLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  
-  // 1. VERIFICAÇÃO DE SEGURANÇA
-  const token = localStorage.getItem('admin_token');
   const navigate = useNavigate();
 
-  // Se não tiver token, barra a renderização do layout e manda pro login
+  // se não tiver token, barra a renderização do layout e manda pro login
+  const token = localStorage.getItem('admin_token');
   if (!token) {
     return <Navigate to="/admin/login" replace />;
   }
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  // 2. FUNÇÃO DE LOGOUT
-  const handleLogout = (e) => {
+  const handleLogout = e => {
     e.preventDefault();
-    localStorage.removeItem('admin_token'); // Apaga o token do localStorage
-    navigate('/admin/login'); // Manda de volta pro login
+    localStorage.removeItem('admin_token');
+    navigate('/admin/login');
   };
 
   const navLinkStyle = ({ isActive }) =>
     `flex items-center gap-3 px-4 py-2 mx-2 rounded-lg transition-colors ${
-      isActive 
-        ? 'bg-lfapink/50 text-black font-semibold' 
-        : 'text-gray-600 hover:bg-gray-200'      
+      isActive
+        ? 'bg-lfapink/50 text-black font-semibold'
+        : 'text-gray-600 hover:bg-gray-200'
     }`;
 
   return (
     <div className="flex h-screen w-full bg-gray-200 font-viminalis overflow-hidden">
-      
       {/* SIDEBAR */}
-      <aside 
+      <aside
         className={`bg-[#FAFAFA] border-r border-gray-300 flex flex-col justify-between transition-all duration-300 ease-in-out whitespace-nowrap ${
           isSidebarOpen ? 'w-64' : 'w-0 opacity-0 md:opacity-100 md:w-0'
         } overflow-hidden`}
       >
-        <div className="flex flex-col gap-4 py-4 w-64"> 
+        <div className="flex flex-col gap-4 py-4 w-64">
           <div className="flex justify-between items-center px-4">
-            <Link to="/" className="text-xl text-gray-700 uppercase">Léa Foto e Arte</Link>
-            <button onClick={toggleSidebar} className="text-gray-500 hover:text-gray-800">
+            <Link to="/" className="text-xl text-gray-700 uppercase">
+              Léa Foto e Arte
+            </Link>
+            <button
+              onClick={toggleSidebar}
+              className="text-gray-500 hover:text-gray-800"
+            >
               <FiX className="w-5 h-5" />
             </button>
           </div>
@@ -68,8 +80,8 @@ export default function AdminRootLayout() {
 
         {/* Botão Sair */}
         <div className="p-4 w-64 border-t border-gray-200">
-          <button 
-            onClick={handleLogout} 
+          <button
+            onClick={handleLogout}
             className="w-full flex items-center gap-3 px-4 py-2 text-gray-600 hover:bg-gray-200 rounded-lg transition-colors cursor-pointer"
           >
             <FiLogOut /> Sair
@@ -79,11 +91,13 @@ export default function AdminRootLayout() {
 
       {/* ÁREA PRINCIPAL */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden">
-        
         {/* HEADER */}
         <header className="bg-[#FAFAFA] border-b border-gray-300 h-12 min-h-12 flex items-center px-4 gap-3 text-gray-600">
           {!isSidebarOpen && (
-            <button onClick={toggleSidebar} className="hover:text-black transition-colors">
+            <button
+              onClick={toggleSidebar}
+              className="hover:text-black transition-colors"
+            >
               <FiMenu className="w-5 h-5" />
             </button>
           )}
@@ -92,10 +106,12 @@ export default function AdminRootLayout() {
 
         {/* CONTEÚDO DA PÁGINA */}
         <main className="flex-1 overflow-auto bg-[#EBEBEB]">
-          <Outlet />
+          <ConfirmProvider>
+            <Toaster position="top-right" />
+            <Outlet />
+          </ConfirmProvider>
         </main>
       </div>
-
     </div>
   );
 }

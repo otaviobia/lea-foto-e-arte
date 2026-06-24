@@ -5,14 +5,14 @@ import { Op } from 'sequelize';
 
 const router = express.Router();
 
-// GET: Buscar estatísticas financeiras com filtro de data opcional
+// Busca estatísticas financeiras com filtro de data opcional [RESTRITA]
 router.get('/financeiro', verifyToken, async (req, res) => {
   const { startDate, endDate } = req.query;
 
   try {
     const whereClause = {};
 
-    // Se o usuário passou filtros de data, montamos a busca temporal
+    // se o usuário passou filtros de data, montamos a busca temporal
     if (startDate || endDate) {
       whereClause.createdAt = {};
       if (startDate) {
@@ -25,7 +25,6 @@ router.get('/financeiro', verifyToken, async (req, res) => {
 
     const sales = await Sale.findAll({ where: whereClause });
 
-    // Inicializa os contadores das estatísticas
     let faturamentoTotal = 0;
     let gastosTotais = 0;
     const resumoCanais = {};
@@ -37,7 +36,7 @@ router.get('/financeiro', verifyToken, async (req, res) => {
       faturamentoTotal += total;
       gastosTotais += gasto;
 
-      // Agrupa também o faturamento por canal de venda (Shopee, Whats, etc)
+      // agrupa também o faturamento por canal de venda
       if (!resumoCanais[venda.canal_venda]) {
         resumoCanais[venda.canal_venda] = { faturamento: 0, quantidade: 0 };
       }
@@ -52,11 +51,10 @@ router.get('/financeiro', verifyToken, async (req, res) => {
         totalVendas: sales.length,
         faturamento: faturamentoTotal,
         gastos: gastosTotais,
-        lucro: lucroTotal
+        lucro: lucroTotal,
       },
-      canais: resumoCanais
+      canais: resumoCanais,
     });
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ erro: 'Erro ao gerar relatório financeiro' });

@@ -1,26 +1,26 @@
-import { Outlet, useNavigation } from 'react-router'
+import { Outlet, useNavigation } from 'react-router';
 
-import Header from "../components/Header.jsx";
-import Footer from "../components/Footer.jsx";
-import Loading from "../components/Loading.jsx";
-import WhatsAppCircle from "../components/WhatsAppCircle.jsx";
+import Header from '../components/Header.jsx';
+import Footer from '../components/Footer.jsx';
+import Loading from '../components/Loading.jsx';
+import WhatsAppCircle from '../components/WhatsAppCircle.jsx';
 
 export default function RootLayout() {
   const navigation = useNavigation();
-  const isLoading = navigation.state === "loading";
+  const isLoading = navigation.state === 'loading';
 
   return (
-  <>
-    { isLoading ? (
-      <Loading/> 
-    ) : (
-      <>
-      <Header />
-      <Outlet/>
-      <Footer />
-      <WhatsAppCircle/>
-      </>
-    )}
-  </>
-  )
+    <>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <Header />
+          <Outlet />
+          <Footer />
+          <WhatsAppCircle />
+        </>
+      )}
+    </>
+  );
 }

@@ -1,16 +1,16 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   /* Cores */
-  --color-lfapurple: #C1BAD9;
-  --color-lfapink: #F2B3B3;
-  --color-lfagreen: #ABD194;
-  --color-lfayellow: #F2E088;
-  --color-lfablue: #A2D9D9;
+  --color-lfapurple: #c1bad9;
+  --color-lfapink: #f2b3b3;
+  --color-lfagreen: #abd194;
+  --color-lfayellow: #f2e088;
+  --color-lfablue: #a2d9d9;
 
   /* Tipografia */
-  --font-viminalis: "Viminalis", sans-serif;
-  --font-winterfun: "Winterfun", cursive;
+  --font-viminalis: 'Viminalis', sans-serif;
+  --font-winterfun: 'Winterfun', cursive;
 }
 
 @font-face {
@@ -26,7 +26,7 @@
   src: url('/fonts/Viminalis-bold.otf') format('opentype');
   font-weight: 700;
   font-style: normal;
-  font-display: swap; 
+  font-display: swap;
 }
 
 @font-face {
@@ -34,7 +34,7 @@
   src: url('/fonts/Winterfun.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
-  font-display: swap; 
+  font-display: swap;
 }
 
 /* Efeito de opacidade nas miniaturas do Swiper */
@@ -57,9 +57,18 @@
   }
 
   @keyframes custom-bounce {
-    0%, 100% { transform: translateY(0); }
-    25% { transform: translateY(-10px); }
-    50% { transform: translateY(0); }
-    75% { transform: translateY(-10px); }
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    25% {
+      transform: translateY(-10px);
+    }
+    50% {
+      transform: translateY(0);
+    }
+    75% {
+      transform: translateY(-10px);
+    }
   }
 }

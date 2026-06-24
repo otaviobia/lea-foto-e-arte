@@ -18,10 +18,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
-app.use(cors({
-  origin: 'http://localhost:5173',
-}));
-
+app.use(cors({ origin: 'http://localhost:5173' }));
 app.use(json());
 
 app.use('/api/categorias', categorias);
@@ -30,14 +27,15 @@ app.use('/api/heros', heros);
 app.use('/api/clientes', clientes);
 app.use('/api/vendas', vendas);
 app.use('/api/relatorios', relatorios);
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.post('/login', login);
 app.post('/register', verifyToken, register);
 
 const PORT = process.env.PORT || 3000;
 
-sequelize.sync()
+sequelize
+  .sync()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`Servidor rodando na porta ${PORT}`);

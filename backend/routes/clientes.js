@@ -5,7 +5,7 @@ import { Op } from 'sequelize';
 
 const router = express.Router();
 
-// Rota para criar um cliente
+// Cria um cliente [RESTRITA]
 router.post('/', verifyToken, async (req, res) => {
   if (!req.body.name) {
     return res.status(400).json({ erro: 'O nome do cliente é obrigatório' });
@@ -17,15 +17,15 @@ router.post('/', verifyToken, async (req, res) => {
   } catch (err) {
     console.error(err);
     if (err.name === 'SequelizeUniqueConstraintError') {
-      return res.status(400).json({ 
-        erro: 'Já existe um cliente cadastrado com esse CPF ou E-mail.' 
+      return res.status(400).json({
+        erro: 'Já existe um cliente cadastrado com esse CPF ou E-mail.',
       });
     }
     res.status(500).json({ erro: 'Erro interno ao criar cliente' });
   }
 });
 
-// Rota para buscar todos os clientes ordenado por nome
+// Busca todos os clientes ordenados por nome [RESTRITA]
 router.get('/', verifyToken, async (req, res) => {
   try {
     const rows = await Customer.findAll({
@@ -39,18 +39,17 @@ router.get('/', verifyToken, async (req, res) => {
   }
 });
 
-// Rota para buscar clientes por nome (parcial)
+// Busca um número "x" de clientes por nome (faz busca parcial) [RESTRITA]
 router.get('/search/:name', async (req, res) => {
   const { name } = req.params;
-  
   const limitParam = parseInt(req.query.limit, 10) || undefined;
 
   try {
     const customers = await Customer.findAll({
-      where: { 
-        name: { [Op.like]: `%${name}%` } 
+      where: {
+        name: { [Op.iLike]: `%${name}%` }, // case insensitive
       },
-      limit: limitParam
+      limit: limitParam,
     });
 
     res.json({ clientes: customers });
@@ -60,13 +59,13 @@ router.get('/search/:name', async (req, res) => {
   }
 });
 
-// Rota para deletar um cliente por ID
+// Deleta um cliente por ID [RESTRITA]
 router.delete('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
 
   try {
     const linhasDeletadas = await Customer.destroy({
-      where: { id: id }
+      where: { id: id },
     });
 
     if (linhasDeletadas === 0) {
@@ -76,10 +75,10 @@ router.delete('/:id', verifyToken, async (req, res) => {
     res.json({ message: 'Cliente deletado com sucesso!' });
   } catch (err) {
     console.error(err);
-    
+
     if (err.name === 'SequelizeForeignKeyConstraintError') {
-      return res.status(400).json({ 
-        erro: 'Não é possível deletar este cliente pois existem vendas associadas a ele no sistema.' 
+      return res.status(400).json({
+        erro: 'Não é possível deletar este cliente pois existem vendas associadas a ele no sistema.',
       });
     }
 
@@ -87,7 +86,7 @@ router.delete('/:id', verifyToken, async (req, res) => {
   }
 });
 
-// Rota para editar um cliente por ID
+// Edita um cliente por ID [RESTRITA]
 router.put('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
 
@@ -97,20 +96,20 @@ router.put('/:id', verifyToken, async (req, res) => {
 
   try {
     const customer = await Customer.findByPk(id);
-    
+
     if (!customer) {
       return res.status(404).json({ erro: 'Cliente não encontrado' });
     }
 
-    // O update substitui os valores antigos pelos novos que vieram no req.body
+    // update substitui os valores antigos pelos novos que vieram no req.body
     await customer.update(req.body);
-    
+
     res.json({ customer });
   } catch (err) {
     console.error(err);
     if (err.name === 'SequelizeUniqueConstraintError') {
-      return res.status(400).json({ 
-        erro: 'Já existe um cliente cadastrado com esse CPF ou E-mail.' 
+      return res.status(400).json({
+        erro: 'Já existe um cliente cadastrado com esse CPF ou E-mail.',
       });
     }
     res.status(500).json({ erro: 'Erro interno ao atualizar cliente' });

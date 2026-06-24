@@ -1,26 +1,17 @@
 import express from 'express';
 import { Hero } from '../models/index.js';
 import { verifyToken } from '../middleware/auth.js';
-import multer from 'multer';
-import path from 'path';
+import { createUpload } from '../middleware/upload.js';
 
 const router = express.Router();
+const upload = createUpload('hero');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) { cb(null, 'uploads/'); },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'hero-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage });
-
-// GET: Buscar banners ativos (Para a Home)
+// Busca banners ativos para a Home [PÚBLICA]
 router.get('/ativos', async (req, res) => {
   try {
     const heros = await Hero.findAll({
       where: { isActive: true },
-      order: [['order', 'ASC']]
+      order: [['order', 'ASC']],
     });
     res.json({ heros });
   } catch (err) {
@@ -28,7 +19,7 @@ router.get('/ativos', async (req, res) => {
   }
 });
 
-// GET: Buscar TODOS os banners (Para o Admin)
+// Busca TODOS os banners [PÚBLICA]
 router.get('/', async (req, res) => {
   try {
     const heros = await Hero.findAll({ order: [['order', 'ASC']] });
@@ -38,7 +29,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// POST: Criar novo banner
+// Cria novo banner [RESTRITA]
 router.post('/', verifyToken, upload.single('image'), async (req, res) => {
   try {
     const heroData = { ...req.body };
@@ -53,7 +44,7 @@ router.post('/', verifyToken, upload.single('image'), async (req, res) => {
   }
 });
 
-// PUT: Reordenar banners
+// Reordena banners [RESTRITA]
 router.put('/reordenar', verifyToken, async (req, res) => {
   const { listaOrdenada } = req.body;
 
@@ -63,11 +54,8 @@ router.put('/reordenar', verifyToken, async (req, res) => {
 
   try {
     await Promise.all(
-      listaOrdenada.map(item => 
-        Hero.update(
-          { order: item.order }, 
-          { where: { id: item.id } }
-        )
+      listaOrdenada.map(item =>
+        Hero.update({ order: item.order }, { where: { id: item.id } })
       )
     );
 
@@ -78,7 +66,7 @@ router.put('/reordenar', verifyToken, async (req, res) => {
   }
 });
 
-// PUT: Atualizar banner (ordem, ativo/inativo, imagem)
+// Atualiza banners (ordem, ativo/inativo, imagem) [RESTRITA]
 router.put('/:id', verifyToken, async (req, res) => {
   try {
     await Hero.update(req.body, { where: { id: req.params.id } });
@@ -88,7 +76,7 @@ router.put('/:id', verifyToken, async (req, res) => {
   }
 });
 
-// DELETE: Remover banner
+// Remove banner por id [RESTRITA]
 router.delete('/:id', verifyToken, async (req, res) => {
   try {
     await Hero.destroy({ where: { id: req.params.id } });

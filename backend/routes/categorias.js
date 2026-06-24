@@ -1,21 +1,12 @@
 import express from 'express';
 import { Category, Product } from '../models/index.js';
 import { verifyToken } from '../middleware/auth.js';
-import multer from 'multer';
-import path from 'path';
+import { createUpload } from '../middleware/upload.js';
 
 const router = express.Router();
+const upload = createUpload('categoria');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) { cb(null, 'uploads/'); },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'categoria-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage });
-
-// Rota para criar uma nova categoria (cria a slug automaticamente a partir do nome)
+// Cria uma nova categoria [RESTRITA]
 router.post('/', verifyToken, upload.single('image'), async (req, res) => {
   const { name } = req.body;
 
@@ -29,7 +20,12 @@ router.post('/', verifyToken, upload.single('image'), async (req, res) => {
       imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
     }
 
-    const slug = name.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    // cria a slug automaticamente a partir do nome
+    const slug = name
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
     const newCategory = await Category.create({ name, slug, image: imageUrl });
     res.status(201).json({ categoria: newCategory });
   } catch (err) {
@@ -38,7 +34,7 @@ router.post('/', verifyToken, upload.single('image'), async (req, res) => {
   }
 });
 
-// Rota para buscar todas as categorias, ordenadas por nome
+// Busca todas as categorias, ordenadas por nome [PÚBLICA]
 router.get('/', async (req, res) => {
   try {
     const rows = await Category.findAll({
@@ -52,7 +48,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Rota para buscar apenas categorias em destaque (Home)
+// Busca apenas categorias em destaque para Home [PÚBLICA]
 router.get('/destaques', async (req, res) => {
   try {
     const destaques = await Category.findAll({
@@ -61,7 +57,7 @@ router.get('/destaques', async (req, res) => {
       include: {
         model: Product,
         as: 'products',
-      }
+      },
     });
     res.json({ categorias: destaques });
   } catch (err) {
@@ -69,7 +65,7 @@ router.get('/destaques', async (req, res) => {
   }
 });
 
-// 2. Rota para ligar/desligar o destaque de uma categoria específica (Admin)
+// Liga/desliga o destaque de uma categoria específica [RESTRITA]
 router.put('/:id/destaque', verifyToken, async (req, res) => {
   const { id } = req.params;
   const { isFeatured } = req.body;
@@ -80,19 +76,22 @@ router.put('/:id/destaque', verifyToken, async (req, res) => {
       return res.status(404).json({ erro: 'Categoria não encontrada' });
     }
 
-    // Se estiver desativando o destaque, podemos resetar a ordem para 0
+    // ao desativar colocar na ordem 0 (estado default)
     const featuredOrder = isFeatured ? category.featuredOrder : 0;
 
     await category.update({ isFeatured, featuredOrder });
-    res.json({ mensagem: 'Status de destaque atualizado com sucesso!', categoria: category });
+    res.json({
+      mensagem: 'Status de destaque atualizado com sucesso!',
+      categoria: category,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ erro: 'Erro ao atualizar destaque da categoria' });
   }
 });
 
-// 3. Rota para salvar a nova ordem das categorias destacadas (Admin)
-// Espera receber no body: { listaOrdenada: [ { id: 1, ordem: 0 }, { id: 3, ordem: 1 } ] }
+// Salva a nova ordem das categorias destacadas [RESTRITA]
+// Recebe { listaOrdenada: [ { id: 1, ordem: 0 }, { id: 3, ordem: 1 } ] }
 router.put('/reordenar-destaques', verifyToken, async (req, res) => {
   const { listaOrdenada } = req.body;
 
@@ -101,11 +100,10 @@ router.put('/reordenar-destaques', verifyToken, async (req, res) => {
   }
 
   try {
-    // Executa múltiplos updates em paralelo para atualizar a ordem de cada uma
     await Promise.all(
-      listaOrdenada.map(item => 
+      listaOrdenada.map(item =>
         Category.update(
-          { featuredOrder: item.ordem }, 
+          { featuredOrder: item.ordem },
           { where: { id: item.id } }
         )
       )
@@ -118,13 +116,13 @@ router.put('/reordenar-destaques', verifyToken, async (req, res) => {
   }
 });
 
-// Rota para buscar apenas uma categoria por slug (pra saber o nome bonito)
+// Busca uma categoria por slug [PÚBLICA]
 router.get('/:slug', async (req, res) => {
   const { slug } = req.params;
 
   try {
     const category = await Category.findOne({
-      where: { slug: slug }
+      where: { slug: slug },
     });
 
     if (!category) {
@@ -138,7 +136,7 @@ router.get('/:slug', async (req, res) => {
   }
 });
 
-// Rota para remover uma categoria por id e colocar todos os produtos associados a ela como "sem categoria"
+// Remove uma categoria por id e coloca todos os produtos associados a ela como "sem categoria" [RESTRITA]
 router.delete('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
 
@@ -149,10 +147,8 @@ router.delete('/:id', verifyToken, async (req, res) => {
       return res.status(404).json({ erro: 'Categoria não encontrada' });
     }
 
-    // Atualiza todos os produtos que têm essa categoria para null
+    // atualiza todos os produtos que têm essa categoria para null e remove
     await Product.update({ categoryId: null }, { where: { categoryId: id } });
-
-    // Remove a categoria
     await category.destroy();
 
     res.json({ mensagem: 'Categoria removida com sucesso' });

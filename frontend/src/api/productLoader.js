@@ -1,8 +1,11 @@
+// Loader da página de produto
 export const productLoader = async ({ params }) => {
-  const response = await fetch(`http://localhost:3000/api/produtos/${params.productSlug}`);
+  const response = await fetch(
+    `http://localhost:3000/api/produtos/${params.productSlug}`
+  );
 
   if (response.status === 404) {
-    throw new Response("Not Found", { status: 404 });
+    throw new Response('Not Found', { status: 404 });
   }
 
   const { produto } = await response.json();
@@ -10,10 +13,12 @@ export const productLoader = async ({ params }) => {
   const categoriaSlug = produto.category?.slug;
   let produtosDaCategoria = [];
   if (categoriaSlug) {
-    const catRes = await fetch(`http://localhost:3000/api/produtos/categoria/${categoriaSlug}`);
+    const catRes = await fetch(
+      `http://localhost:3000/api/produtos/categoria/${categoriaSlug}`
+    );
     if (catRes.ok) {
       const data = await catRes.json();
-      produtosDaCategoria = data.produtos.filter((p) => p.id !== produto.id);
+      produtosDaCategoria = data.produtos.filter(p => p.id !== produto.id);
     }
   }
 

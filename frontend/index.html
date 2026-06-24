@@ -30,13 +30,13 @@
       .loading-texto {
         font-family: 'Viminalis', sans-serif;
         margin-top: 1rem;
-
         font-size: 1.5rem;
         font-weight: normal;
       }
 
       @keyframes tailwind-bounce {
-        0%, 100% {
+        0%,
+        100% {
           transform: translateY(-25%);
           animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
         }
@@ -53,10 +53,10 @@
   <body>
     <div id="root">
       <main class="loading-container">
-        <img 
-          class="loading-imagem animate-bounce-puro" 
-          src="/images/borboleta.png" 
-          alt="Carregando..." 
+        <img
+          class="loading-imagem animate-bounce-puro"
+          src="/images/borboleta.png"
+          alt="Carregando..."
         />
         <h1 class="loading-texto">Carregando...</h1>
       </main>

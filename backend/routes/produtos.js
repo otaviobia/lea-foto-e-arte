@@ -1,21 +1,13 @@
 import express from 'express';
 import { Category, Product } from '../models/index.js';
 import { verifyToken } from '../middleware/auth.js';
-import multer from 'multer';
-import path from 'path';
+import { createUpload } from '../middleware/upload.js';
+import { Op } from 'sequelize';
 
 const router = express.Router();
+const upload = createUpload('produto');
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) { cb(null, 'uploads/'); },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'produto-' + uniqueSuffix + path.extname(file.originalname));
-  }
-});
-const upload = multer({ storage });
-
-// Rota para buscar todos os produtos, ordenados por título
+// Buscar todos os produtos, ordenados por título [PÚBLICA]
 router.get('/', async (req, res) => {
   try {
     const rows = await Product.findAll({
@@ -29,7 +21,33 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Rota para buscar um produto pela slug
+// Busca produtos por nome (busca parcial, case insensitive) [PÚBLICA]
+router.get('/busca/:query', async (req, res) => {
+  const { query } = req.params;
+  const limitParam = parseInt(req.query.limit, 10) || undefined;
+
+  try {
+    const products = await Product.findAll({
+      where: {
+        title: { [Op.iLike]: `%${query}%` },
+      },
+      include: {
+        model: Category,
+        as: 'category',
+        attributes: ['name', 'slug'],
+      },
+      order: [['title', 'ASC']],
+      limit: limitParam,
+    });
+
+    res.json({ produtos: products });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ erro: 'Erro ao buscar produtos' });
+  }
+});
+
+// Buscar um produto pela slug [PÚBLICA]
 router.get('/:slug', async (req, res) => {
   const { slug } = req.params;
   try {
@@ -50,7 +68,7 @@ router.get('/:slug', async (req, res) => {
   }
 });
 
-// Rota para buscar produtos por categoria
+// Busca produtos por categoria [PÚBLICA]
 router.get('/categoria/:categorySlug', async (req, res) => {
   const { categorySlug } = req.params;
 
@@ -60,7 +78,7 @@ router.get('/categoria/:categorySlug', async (req, res) => {
         model: Category,
         as: 'category',
         where: { slug: categorySlug },
-        attributes: [], // Não precisamos dos dados da categoria aqui
+        attributes: [],
       },
       order: [['title', 'ASC']],
     });
@@ -72,16 +90,23 @@ router.get('/categoria/:categorySlug', async (req, res) => {
   }
 });
 
-// Rota para criar um novo produto (cria a slug automaticamente a partir do título)
+// Cria um novo produto [RESTRITA]
 router.post('/', verifyToken, upload.array('images'), async (req, res) => {
   const { title, description, price, shopeeLink, categoryId } = req.body;
 
   try {
-    const slug = title.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    // cria a slug automaticamente a partir do título
+    const slug = title
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
 
     let imageUrls = [];
     if (req.files && req.files.length > 0) {
-      imageUrls = req.files.map(file => `${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+      imageUrls = req.files.map(
+        file => `${req.protocol}://${req.get('host')}/uploads/${file.filename}`
+      );
     }
 
     const newProduct = await Product.create({
@@ -101,7 +126,7 @@ router.post('/', verifyToken, upload.array('images'), async (req, res) => {
   }
 });
 
-// PUT: Atualizar um produto existente
+// Atualiza um produto existente [RESTRITA]
 router.put('/:id', verifyToken, upload.array('images'), async (req, res) => {
   const { id } = req.params;
   const { title, description, price, shopeeLink, categoryId } = req.body;
@@ -116,13 +141,19 @@ router.put('/:id', verifyToken, upload.array('images'), async (req, res) => {
     // Se o título mudou, atualizamos o slug também
     let slug = product.slug;
     if (title && title !== product.title) {
-      slug = title.toLowerCase().replace(/\s+/g, '-').normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+      slug = title
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
     }
 
-    // Mantém as imagens antigas por padrão. Se subiu imagens novas, substitui.
+    // mantém as imagens antigas por padrão - se subiu imagens novas, substitui
     let imageUrls = product.images;
     if (req.files && req.files.length > 0) {
-      imageUrls = req.files.map(file => `${req.protocol}://${req.get('host')}/uploads/${file.filename}`);
+      imageUrls = req.files.map(
+        file => `${req.protocol}://${req.get('host')}/uploads/${file.filename}`
+      );
     }
 
     await product.update({
@@ -142,7 +173,7 @@ router.put('/:id', verifyToken, upload.array('images'), async (req, res) => {
   }
 });
 
-// DELETE: Remover um produto
+// Remove um produto [RESTRITA]
 router.delete('/:id', verifyToken, async (req, res) => {
   const { id } = req.params;
 

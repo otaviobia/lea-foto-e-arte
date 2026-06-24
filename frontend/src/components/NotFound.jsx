@@ -4,7 +4,7 @@ function NotFound() {
       <img className="w-16" src="/images/borboleta.png" alt="Imagem de erro" />
       <h1 className="font-viminalis">Página não encontrada!</h1>
     </main>
-  )
+  );
 }
 
-export default NotFound
+export default NotFound;

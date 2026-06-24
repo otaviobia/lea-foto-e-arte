@@ -2,39 +2,45 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../config/database.js';
 
 const Sale = sequelize.define('Sale', {
+  // primary key é id (padrão do sequelize)
   canal_venda: {
     type: DataTypes.ENUM('shopee', 'artesanou', 'akeba', 'whatsapp', 'outro'),
-    allowNull: false
+    allowNull: false,
   },
   status: {
-    type: DataTypes.ENUM('aguardando_pagamento', 'em_producao', 'enviado', 'concluido'),
-    defaultValue: 'aguardando_pagamento'
+    type: DataTypes.ENUM(
+      'aguardando_pagamento',
+      'em_producao',
+      'enviado',
+      'concluido'
+    ),
+    defaultValue: 'aguardando_pagamento',
   },
   produtos_texto: {
     type: DataTypes.TEXT,
-    allowNull: false
+    allowNull: false,
   },
   valor_total: {
     type: DataTypes.DECIMAL(10, 2),
-    allowNull: false
+    allowNull: false,
   },
   valor_gastos: {
     type: DataTypes.DECIMAL(10, 2),
-    defaultValue: 0.00,
-    allowNull: false
+    defaultValue: 0.0,
+    allowNull: false,
   },
   link_xml_nf: {
     type: DataTypes.STRING,
-    allowNull: true
+    allowNull: true,
   },
   observacoes: {
     type: DataTypes.TEXT,
-    allowNull: true
+    allowNull: true,
   },
   data_venda: {
     type: DataTypes.DATE,
-    defaultValue: DataTypes.NOW
-  }
+    defaultValue: DataTypes.NOW,
+  },
 });
 
 export default Sale;

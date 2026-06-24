@@ -5,7 +5,10 @@ function CategoryGrid({ categories }) {
     <div className="grid grid-cols-3 lg:grid-cols-6 gap-6 p-4">
       {categories.map((c, index) => (
         <div key={c.id || index} className="flex flex-col items-center">
-          <Link to={`/produtos/${c.slug}`} className="hover:opacity-80 transition-opacity">
+          <Link
+            to={`/produtos/${c.slug}`}
+            className="hover:opacity-80 transition-opacity"
+          >
             <img
               className="aspect-square w-full rounded-full pb-1 object-cover"
               src={c.image}

@@ -1,8 +1,8 @@
-import ProductCard from "./ProductCard"
+import ProductCard from './ProductCard';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
-function ProductCarousel({produtos}) {
+function ProductCarousel({ produtos }) {
   return (
     <Swiper
       spaceBetween={10}
@@ -16,13 +16,18 @@ function ProductCarousel({produtos}) {
         },
       }}
     >
-      {produtos.map((p, id) =>
+      {produtos.map((p, id) => (
         <SwiperSlide key={id}>
-          <ProductCard imageSrc={p.images[0]} title={p.title} price={p.price} productSlug={p.slug}/>
+          <ProductCard
+            imageSrc={p.images[0]}
+            title={p.title}
+            price={p.price}
+            productSlug={p.slug}
+          />
         </SwiperSlide>
-      )}
+      ))}
     </Swiper>
-  )
+  );
 }
 
-export default ProductCarousel
+export default ProductCarousel;
